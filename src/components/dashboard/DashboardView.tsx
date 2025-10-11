@@ -19,6 +19,10 @@ import { deduplicateEvents } from '@/utils/eventUtils'
 import { UserSettings } from '@/components/settings/UserSettings'
 import { AdPlacement } from '@/components/ads/AdPlacement'
 import { VoiceCommandHandler } from '@/components/voice/VoiceCommandHandler'
+import { InstantCapture } from '@/components/capture/InstantCapture'
+import { AdBlocker, AdPlacement } from '@/components/ads/AdBlocker'
+import { ReferralRewards } from '@/components/rewards/ReferralRewards'
+import { useSyncStatus } from '@/lib/sync/realtimeSync'
 import { FloatingAssistant } from '@/components/assistant/FloatingAssistant'
 import { ScheduleViews } from '@/components/schedule/ScheduleViews'
 import { ProFeatures } from '@/components/pro/ProFeatures'
@@ -46,7 +50,15 @@ export function DashboardView() {
   const [showVoiceHandler, setShowVoiceHandler] = useState(false)
   const [showFloatingAssistant, setShowFloatingAssistant] = useState(false)
   const [showProFeatures, setShowProFeatures] = useState(false)
+  const [showReferralRewards, setShowReferralRewards] = useState(false)
+  const [showInstantCapture, setShowInstantCapture] = useState(false)
   const [assistantPosition, setAssistantPosition] = useState({ x: 50, y: 50 })
+  
+  // Sync status
+  const syncStatus = useSyncStatus()
+  
+  // Check if user is Pro (mock - in real app, get from user context)
+  const isProUser = localStorage.getItem('user_pro_status') === 'true'
   
   // Device and sync hooks
   const deviceInfo = useDevice()
@@ -137,7 +149,8 @@ export function DashboardView() {
   }, [addEvent])
 
   return (
-    <div className="pb-20">
+    <AdBlocker isProUser={isProUser}>
+      <div className="pb-20">
       {/* Date Navigation */}
       <div className="sticky top-16 z-30 bg-white border-b border-gray-200 px-4 py-3">
         <div className="flex items-center justify-between mb-3">
@@ -485,11 +498,36 @@ export function DashboardView() {
         </div>
       )}
 
-      {/* Top Banner Ad */}
-      <div className="px-4 mb-6">
-        <AdPlacement type="banner" placement="dashboard-top" />
-      </div>
+      {/* Instant Capture Button - Always visible */}
+      <button
+        onClick={() => setShowInstantCapture(true)}
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-full shadow-2xl flex items-center justify-center transition-all transform hover:scale-110 active:scale-95"
+        title="Instant Capture - Never forget anything!"
+      >
+        <Plus className="w-6 h-6" />
+      </button>
 
-    </div>
+      {/* Instant Capture Modal */}
+      <InstantCapture
+        isOpen={showInstantCapture}
+        onClose={() => setShowInstantCapture(false)}
+      />
+
+      {/* Referral Rewards Modal */}
+      <ReferralRewards
+        isOpen={showReferralRewards}
+        onClose={() => setShowReferralRewards(false)}
+        isProUser={isProUser}
+      />
+
+      {/* Pro Features Modal */}
+      <ProFeatures
+        isOpen={showProFeatures}
+        onClose={() => setShowProFeatures(false)}
+        currentPlan={isProUser ? 'pro' : 'free'}
+      />
+
+      </div>
+    </AdBlocker>
   )
 }
