@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server'
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
 import { prisma } from './prisma'
 
 export interface JWTPayload {
@@ -64,11 +65,9 @@ export async function authenticateRequest(request: NextRequest): Promise<JWTPayl
 }
 
 export function hashPassword(password: string): string {
-  const bcrypt = require('bcryptjs')
   return bcrypt.hashSync(password, 12)
 }
 
 export function verifyPassword(password: string, hash: string): boolean {
-  const bcrypt = require('bcryptjs')
   return bcrypt.compareSync(password, hash)
 }

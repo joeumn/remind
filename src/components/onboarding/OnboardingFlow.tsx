@@ -70,15 +70,15 @@ const onboardingSteps = [
         <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 space-y-3">
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-sm text-gray-600 dark:text-gray-400">"Call mom tomorrow at 3pm"</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">&quot;Call mom tomorrow at 3pm&quot;</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-sm text-gray-600 dark:text-gray-400">"Meeting with team next Monday"</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">&quot;Meeting with team next Monday&quot;</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-sm text-gray-600 dark:text-gray-400">"Pick up groceries in 30 minutes"</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">&quot;Pick up groceries in 30 minutes&quot;</span>
           </div>
         </div>
       </div>
@@ -119,7 +119,7 @@ const onboardingSteps = [
             ✨ Instant Sync
           </h4>
           <p className="text-sm text-blue-700 dark:text-blue-300">
-            Create a reminder on your phone, see it on your computer. It's that simple.
+            Create a reminder on your phone, see it on your computer. It&apos;s that simple.
           </p>
         </div>
       </div>

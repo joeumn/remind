@@ -71,7 +71,7 @@ export function handleApiError(error: unknown) {
   )
 }
 
-export function validateRequest(data: any, schema: any) {
+export function validateRequest(data: Record<string, unknown>, schema: { required?: string[] }) {
   // Simple validation - in production, use a library like Zod or Joi
   const requiredFields = schema.required || []
   const missingFields = requiredFields.filter((field: string) => !data[field])

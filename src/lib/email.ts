@@ -88,7 +88,13 @@ class EmailService {
     })
   }
 
-  async sendReminderEmail(email: string, reminder: any): Promise<void> {
+  async sendReminderEmail(email: string, reminder: {
+    title: string
+    description?: string
+    location?: string
+    startDate: string
+    category: string
+  }): Promise<void> {
     const html = `
       <!DOCTYPE html>
       <html>

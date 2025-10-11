@@ -255,7 +255,7 @@ export function QuickAddModal({ isOpen, onClose, onSave }: QuickAddModalProps) {
               {!title && !isListening && (
                 <div className="mt-3 p-4 bg-blue-50 border border-blue-200 rounded-xl">
                   <p className="text-sm text-blue-700">
-                    💡 <strong>Examples:</strong> "Meeting tomorrow at 2pm", "Call dentist next Monday", "Pick up kids in 30 minutes"
+                    💡 <strong>Examples:</strong> &quot;Meeting tomorrow at 2pm&quot;, &quot;Call dentist next Monday&quot;, &quot;Pick up kids in 30 minutes&quot;
                   </p>
                 </div>
               )}

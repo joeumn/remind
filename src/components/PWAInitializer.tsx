@@ -22,7 +22,7 @@ export function PWAInitializer() {
     // Handle app installation
     const handleBeforeInstallPrompt = (e: Event) => {
       // Store the event for later use
-      (window as any).deferredPrompt = e
+      ;(window as Window & { deferredPrompt?: Event }).deferredPrompt = e
     }
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)

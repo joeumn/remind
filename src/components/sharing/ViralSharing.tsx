@@ -13,7 +13,8 @@ import {
   Facebook,
   MessageSquare,
   Mail,
-  Check
+  Check,
+  X
 } from 'lucide-react'
 
 interface ViralSharingProps {

@@ -11,7 +11,8 @@ import {
   BarChart3,
   PieChart,
   Download,
-  Plus
+  Plus,
+  X
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 

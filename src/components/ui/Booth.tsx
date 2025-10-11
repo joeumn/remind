@@ -145,7 +145,7 @@ export function Booth({ onClose, onTryDemo }: BoothProps) {
                       </div>
                     </div>
                     <div className="p-3 bg-white rounded-lg border">
-                      <p className="text-sm text-gray-700 italic">"{step.example}"</p>
+                      <p className="text-sm text-gray-700 italic">&quot;{step.example}&quot;</p>
                     </div>
                   </motion.div>
                 ))}
@@ -182,13 +182,13 @@ export function Booth({ onClose, onTryDemo }: BoothProps) {
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="p-6 bg-green-50 rounded-2xl border-2 border-green-200">
                   <p className="text-gray-700 mb-4 italic">
-                    "I haven't missed a court date in 6 months since switching to RE:MIND. The multi-layer reminders give me complete peace of mind."
+                    &quot;I haven&apos;t missed a court date in 6 months since switching to RE:MIND. The multi-layer reminders give me complete peace of mind.&quot;
                   </p>
                   <p className="font-semibold text-gray-900">- Sarah M., Trial Attorney</p>
                 </div>
                 <div className="p-6 bg-purple-50 rounded-2xl border-2 border-purple-200">
                   <p className="text-gray-700 mb-4 italic">
-                    "The voice input is a game-changer while driving. I can add reminders without taking my hands off the wheel."
+                    &quot;The voice input is a game-changer while driving. I can add reminders without taking my hands off the wheel.&quot;
                   </p>
                   <p className="font-semibold text-gray-900">- Michael R., Sales Executive</p>
                 </div>

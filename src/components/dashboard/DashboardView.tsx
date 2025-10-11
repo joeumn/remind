@@ -251,7 +251,7 @@ export function DashboardView() {
           </div>
           <div>
             <h3 className="text-lg font-bold text-gray-900">
-              📅 Today's Schedule
+              📅 Today&apos;s Schedule
             </h3>
             <p className="text-sm text-gray-600">
               {todayEvents.length} reminder{todayEvents.length !== 1 ? 's' : ''} scheduled for today
