@@ -51,7 +51,9 @@
     "@types/nodemailer": "^6.4.0",
     "@supabase/ssr": "^0.1.0",
     "clsx": "^2.0.0",
-    "tailwind-merge": "^2.0.0"
+    "tailwind-merge": "^2.0.0",
+    "stripe": "^14.0.0",
+    "@stripe/stripe-js": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^8.0.0",

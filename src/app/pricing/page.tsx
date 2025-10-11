@@ -1,13 +1,16 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
 import { Check, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { StripeCheckout } from '@/components/payments/StripeCheckout'
 
 const tiers = [
   {
+    id: 'free',
     name: 'Free',
-    price: '$0',
+    price: 0,
     period: 'forever',
     description: 'Perfect for getting started',
     features: [
@@ -16,41 +19,45 @@ const tiers = [
       'Push notifications only',
       'Single category',
       'Mobile web app access',
+      '🎯 UP→DOWN volume capture',
     ],
     cta: 'Start Free',
     highlighted: false,
   },
   {
+    id: 'pro-monthly',
     name: 'Pro',
-    price: '$9.99',
+    price: 9.99,
     period: 'per month',
     description: 'For busy professionals',
     features: [
-      'Unlimited events',
-      'Multi-layer reminders (14d-1h)',
-      'Push, SMS & email alerts',
-      'All event categories',
-      'Recurring events',
-      'Priority support',
-      'Daily & weekly briefings',
+      '🚫 Zero ads - Clean experience',
+      '🎯 UP→DOWN volume capture',
+      '🎤 Unlimited voice commands',
+      '🤖 Advanced AI features',
+      '🔔 Bulletproof notifications',
+      '📱 Unlimited devices & sync',
+      '💰 $5 referral rewards',
+      '🚀 Priority support',
     ],
-    cta: 'Try Pro Free',
+    cta: 'Upgrade to Pro',
     highlighted: true,
   },
   {
+    id: 'elite-monthly',
     name: 'Elite',
-    price: '$24.99',
+    price: 24.99,
     period: 'per month',
     description: 'Maximum reliability & control',
     features: [
       'Everything in Pro',
-      'Accountability partner alerts',
-      'Custom reminder patterns',
-      'API access',
-      'White-label option',
-      'Dedicated support',
-      'Advanced analytics',
-      'Team collaboration (up to 5)',
+      '👥 Team collaboration (up to 5)',
+      '🔌 API access',
+      '🎨 Custom branding',
+      '📊 Advanced analytics',
+      '🤝 Dedicated support',
+      '🏢 White-label option',
+      '🔧 Custom integrations',
     ],
     cta: 'Go Elite',
     highlighted: false,
@@ -58,6 +65,32 @@ const tiers = [
 ]
 
 export default function PricingPage() {
+  const [showCheckout, setShowCheckout] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState<any>(null)
+
+  const handleUpgrade = (tier: any) => {
+    if (tier.id === 'free') {
+      // Redirect to dashboard for free plan
+      window.location.href = '/dashboard'
+      return
+    }
+
+    setSelectedPlan({
+      id: tier.id,
+      name: tier.name,
+      price: tier.price,
+      interval: tier.period.includes('month') ? 'monthly' : 'yearly',
+      features: tier.features
+    })
+    setShowCheckout(true)
+  }
+
+  const handlePaymentSuccess = (subscription: any) => {
+    console.log('Payment successful:', subscription)
+    // Redirect to dashboard with success message
+    window.location.href = '/dashboard?upgrade=success'
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Header */}
@@ -135,8 +168,8 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              <Link
-                href="/dashboard"
+              <button
+                onClick={() => handleUpgrade(tier)}
                 className={`block w-full py-3 px-6 rounded-xl font-semibold text-center transition-colors ${
                   tier.highlighted
                     ? 'bg-blue-600 text-white hover:bg-blue-700'
@@ -145,7 +178,7 @@ export default function PricingPage() {
               >
                 {tier.cta}
                 <ArrowRight className="inline w-4 h-4 ml-1" />
-              </Link>
+              </button>
             </motion.div>
           ))}
         </div>
@@ -190,6 +223,16 @@ export default function PricingPage() {
           </div>
         </div>
       </footer>
+
+      {/* Stripe Checkout Modal */}
+      {selectedPlan && (
+        <StripeCheckout
+          isOpen={showCheckout}
+          onClose={() => setShowCheckout(false)}
+          plan={selectedPlan}
+          onSuccess={handlePaymentSuccess}
+        />
+      )}
     </div>
   )
 }
