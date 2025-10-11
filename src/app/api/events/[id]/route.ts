@@ -1,45 +1,109 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
+import { authenticateRequest } from '@/lib/auth'
+import { apiRateLimit } from '@/lib/rateLimit'
+import { handleApiError, AppError } from '@/lib/errorHandler'
 
-// Mock database - in production, replace with real database
-let events: any[] = []
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    // Rate limiting
+    const rateLimitResult = apiRateLimit(request)
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { error: 'Rate limit exceeded' },
+        { status: 429, headers: rateLimitResult.headers }
+      )
+    }
+
+    // Authentication
+    const auth = await authenticateRequest(request)
+    if (!auth) {
+      throw new AppError('Unauthorized', 401)
+    }
+
+    const eventId = params.id
+
+    // Fetch event from database
+    const event = await prisma.event.findFirst({
+      where: {
+        id: eventId,
+        userId: auth.userId,
+        status: 'active'
+      }
+    })
+
+    if (!event) {
+      throw new AppError('Event not found', 404)
+    }
+
+    return NextResponse.json(event, { headers: rateLimitResult.headers })
+  } catch (error) {
+    return handleApiError(error)
+  }
+}
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const authHeader = request.headers.get('authorization')
-    
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // Rate limiting
+    const rateLimitResult = apiRateLimit(request)
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { error: 'Rate limit exceeded' },
+        { status: 429, headers: rateLimitResult.headers }
+      )
     }
 
-    const token = authHeader.substring(7)
-    const userId = 'demo-user' // Extract from JWT
-    const eventId = params.id
+    // Authentication
+    const auth = await authenticateRequest(request)
+    if (!auth) {
+      throw new AppError('Unauthorized', 401)
+    }
 
+    const eventId = params.id
     const body = await request.json()
 
-    // Find event index
-    const eventIndex = events.findIndex(event => event.id === eventId && event.user_id === userId)
-    
-    if (eventIndex === -1) {
-      return NextResponse.json({ error: 'Event not found' }, { status: 404 })
+    // Validate event exists and belongs to user
+    const existingEvent = await prisma.event.findFirst({
+      where: {
+        id: eventId,
+        userId: auth.userId,
+        status: 'active'
+      }
+    })
+
+    if (!existingEvent) {
+      throw new AppError('Event not found', 404)
     }
 
-    // Update event
-    events[eventIndex] = {
-      ...events[eventIndex],
-      ...body,
-      id: eventId, // Ensure ID doesn't change
-      user_id: userId, // Ensure user doesn't change
-      updated_at: new Date().toISOString(),
-    }
+    // Update event in database
+    const updatedEvent = await prisma.event.update({
+      where: { id: eventId },
+      data: {
+        title: body.title || existingEvent.title,
+        description: body.description !== undefined ? body.description : existingEvent.description,
+        category: body.category || existingEvent.category,
+        priority: body.priority || existingEvent.priority,
+        startDate: body.startDate ? new Date(body.startDate) : existingEvent.startDate,
+        endDate: body.endDate !== undefined ? (body.endDate ? new Date(body.endDate) : null) : existingEvent.endDate,
+        isAllDay: body.isAllDay !== undefined ? body.isAllDay : existingEvent.isAllDay,
+        location: body.location !== undefined ? body.location : existingEvent.location,
+        recurrenceType: body.recurrenceType || existingEvent.recurrenceType,
+        recurrencePattern: body.recurrencePattern !== undefined ? body.recurrencePattern : existingEvent.recurrencePattern,
+        prepTasks: body.prepTasks !== undefined ? body.prepTasks : existingEvent.prepTasks,
+        metadata: body.metadata !== undefined ? body.metadata : existingEvent.metadata,
+        updatedAt: new Date()
+      }
+    })
 
-    return NextResponse.json(events[eventIndex])
+    return NextResponse.json(updatedEvent, { headers: rateLimitResult.headers })
   } catch (error) {
-    console.error('Error updating event:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return handleApiError(error)
   }
 }
 
@@ -48,29 +112,47 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const authHeader = request.headers.get('authorization')
-    
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // Rate limiting
+    const rateLimitResult = apiRateLimit(request)
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { error: 'Rate limit exceeded' },
+        { status: 429, headers: rateLimitResult.headers }
+      )
     }
 
-    const token = authHeader.substring(7)
-    const userId = 'demo-user' // Extract from JWT
+    // Authentication
+    const auth = await authenticateRequest(request)
+    if (!auth) {
+      throw new AppError('Unauthorized', 401)
+    }
+
     const eventId = params.id
 
-    // Find event index
-    const eventIndex = events.findIndex(event => event.id === eventId && event.user_id === userId)
-    
-    if (eventIndex === -1) {
-      return NextResponse.json({ error: 'Event not found' }, { status: 404 })
+    // Validate event exists and belongs to user
+    const existingEvent = await prisma.event.findFirst({
+      where: {
+        id: eventId,
+        userId: auth.userId,
+        status: 'active'
+      }
+    })
+
+    if (!existingEvent) {
+      throw new AppError('Event not found', 404)
     }
 
-    // Remove event
-    events.splice(eventIndex, 1)
+    // Soft delete event (set status to deleted)
+    await prisma.event.update({
+      where: { id: eventId },
+      data: {
+        status: 'deleted',
+        updatedAt: new Date()
+      }
+    })
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true }, { headers: rateLimitResult.headers })
   } catch (error) {
-    console.error('Error deleting event:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return handleApiError(error)
   }
 }
