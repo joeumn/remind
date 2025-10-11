@@ -1,0 +1,152 @@
+name: 🔒 Security Issue
+description: Report security vulnerabilities or privacy concerns
+title: "[Security]: "
+labels: ["security", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **⚠️ IMPORTANT: For critical security vulnerabilities, please email security@remind.app instead of creating a public issue.**
+        
+        Thanks for taking the time to report a security issue. We take security seriously and appreciate your responsible disclosure.
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity Level
+      description: How severe is this security issue?
+      options:
+        - Critical - Data breach, authentication bypass, or system compromise
+        - High - Significant security vulnerability that could be exploited
+        - Medium - Security concern that should be addressed
+        - Low - Minor security improvement or best practice
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Security Issue Type
+      description: What type of security issue is this?
+      options:
+        - Authentication/Authorization bypass
+        - Data exposure or leakage
+        - Cross-site scripting (XSS)
+        - Cross-site request forgery (CSRF)
+        - SQL injection
+        - Insecure data transmission
+        - Insecure data storage
+        - Privacy concern
+        - Rate limiting bypass
+        - Input validation issue
+        - Information disclosure
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Security Issue Description
+      description: Describe the security vulnerability or concern
+      placeholder: Provide a clear description of the security issue...
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Potential Impact
+      description: What could an attacker achieve with this vulnerability?
+      placeholder: Describe the potential impact if this vulnerability were exploited...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How to reproduce the security issue (be careful not to expose sensitive details publicly)
+      placeholder: |
+        1. Go to '...'
+        2. Attempt to '...'
+        3. Observe that '...'
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected-components
+    attributes:
+      label: Affected Components
+      description: Which parts of the application are affected?
+      placeholder: |
+        - API endpoints: /api/...
+        - Frontend pages: /dashboard/...
+        - Database queries
+        - Authentication system
+        - PWA features
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Environment where the issue was discovered
+      placeholder: |
+        - Version: 1.0.0
+        - Browser: Chrome 120
+        - Device: Desktop/Mobile
+        - Network: Public WiFi/Home
+        - User type: Authenticated/Anonymous
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence/Proof of Concept
+      description: Any evidence, logs, or proof of concept (be careful with sensitive data)
+      placeholder: |
+        - Screenshots (redact sensitive information)
+        - Error messages
+        - Network requests
+        - Console logs
+        - Code snippets (if applicable)
+
+  - type: textarea
+    id: suggested-fix
+    attributes:
+      label: Suggested Fix
+      description: Do you have any suggestions for how this could be fixed?
+      placeholder: Describe potential solutions or mitigation strategies...
+
+  - type: checkboxes
+    id: responsible-disclosure
+    attributes:
+      label: Responsible Disclosure Agreement
+      description: Please confirm you understand responsible disclosure practices
+      options:
+        - label: I understand this is a public issue and will not include sensitive data
+          required: true
+        - label: I will not exploit this vulnerability beyond what's necessary to demonstrate it
+          required: true
+        - label: I understand that critical issues should be reported privately
+          required: true
+        - label: I will give reasonable time for the issue to be fixed before public disclosure
+          required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Additional Checklist
+      description: Please confirm the following
+      options:
+        - label: I have searched existing security issues to avoid duplicates
+          required: true
+        - label: I have not included any actual sensitive data in this report
+          required: true
+        - label: I understand that security issues may take time to investigate and fix
+          required: true

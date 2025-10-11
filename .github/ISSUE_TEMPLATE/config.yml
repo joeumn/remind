@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussion Forum
+    url: https://github.com/joeumn/remindz/discussions
+    about: Ask questions, share ideas, or discuss RE:MIND with the community
+  - name: 📚 Documentation
+    url: https://github.com/joeumn/remindz/blob/main/README.md
+    about: Check the README and documentation for setup instructions and FAQs
+  - name: 🔒 Security Issues
+    url: mailto:security@remind.app
+    about: Report critical security vulnerabilities privately (do not create public issues)
+  - name: 🆘 Support
+    url: https://github.com/joeumn/remindz/discussions/categories/support
+    about: Get help with setup, configuration, or usage issues

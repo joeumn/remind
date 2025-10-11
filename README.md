@@ -62,17 +62,17 @@ cd remind
 
 ### 2. Install Dependencies
 
-```bash
-npm install
+   ```bash
+   npm install
 # or
 yarn install
-```
+   ```
 
 ### 3. Environment Setup
-
+   
 Copy the environment example file and configure your variables:
-
-```bash
+   
+   ```bash
 cp env.example .env.local
 ```
 
@@ -119,13 +119,13 @@ Copy the generated keys to your `.env.local` file.
 
 ### 6. Start Development Server
 
-```bash
-npm run dev
+   ```bash
+   npm run dev
 # or
 yarn dev
-```
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 📦 Production Deployment
 
@@ -481,11 +481,21 @@ DEBUG=remind:*
 
 ## 🤝 Contributing
 
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for detailed information.
+
+### Quick Start
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
 3. Commit changes: `git commit -m 'Add amazing feature'`
 4. Push to branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
+
+### Issue Templates
+Use our structured templates for better communication:
+- 🐛 [Bug Report](.github/ISSUE_TEMPLATE/bug_report.yml) - Report bugs or unexpected behavior
+- ✨ [Feature Request](.github/ISSUE_TEMPLATE/feature_request.yml) - Suggest new features
+- ⚡ [Performance Issue](.github/ISSUE_TEMPLATE/performance_issue.yml) - Report performance problems
+- 🔒 [Security Issue](.github/ISSUE_TEMPLATE/security_issue.yml) - Report security vulnerabilities
 
 ### Development Guidelines
 

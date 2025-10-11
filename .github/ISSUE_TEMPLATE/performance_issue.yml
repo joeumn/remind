@@ -1,0 +1,163 @@
+name: ⚡ Performance Issue
+description: Report slow performance, memory issues, or optimization opportunities
+title: "[Performance]: "
+labels: ["performance", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a performance issue! Please provide detailed metrics and context to help us optimize RE:MIND.
+
+  - type: dropdown
+    id: performance-type
+    attributes:
+      label: Performance Issue Type
+      description: What type of performance issue are you experiencing?
+      options:
+        - Slow page load times
+        - Slow API responses
+        - High memory usage
+        - Slow database queries
+        - Slow PWA installation/loading
+        - Slow sync between devices
+        - Slow search/filtering
+        - Slow bulk operations
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How severe is this performance issue?
+      options:
+        - Critical - App is unusable
+        - High - Significantly impacts user experience
+        - Medium - Noticeable but workable
+        - Low - Minor inconvenience
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Performance Issue Description
+      description: Describe the performance problem you're experiencing
+      placeholder: What is slow or consuming too many resources?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the performance issue
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Wait for '...'
+        4. Notice slow performance
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Device Information
+      description: What device are you using?
+      placeholder: "e.g., iPhone 14, MacBook Pro M2, Samsung Galaxy S23"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      description: What browser are you using?
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Mobile Safari
+        - Chrome Mobile
+        - PWA (Installed)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: network
+    attributes:
+      label: Network Conditions
+      description: What's your network speed/type?
+      placeholder: "e.g., WiFi, 4G, 5G, Slow 3G"
+
+  - type: textarea
+    id: metrics
+    attributes:
+      label: Performance Metrics
+      description: Any specific metrics you've observed
+      placeholder: |
+        - Page load time: X seconds
+        - API response time: X ms
+        - Memory usage: X MB
+        - CPU usage: X%
+        - Network requests: X requests, Y MB transferred
+      render: markdown
+
+  - type: textarea
+    id: devtools
+    attributes:
+      label: DevTools Information
+      description: Screenshots or data from browser DevTools
+      placeholder: |
+        - Lighthouse scores
+        - Network tab screenshots
+        - Performance tab recordings
+        - Memory usage graphs
+        - Console timing logs
+
+  - type: textarea
+    id: data-size
+    attributes:
+      label: Data Size Context
+      description: How much data are you working with?
+      placeholder: |
+        - Number of events/reminders: X
+        - Number of categories: X
+        - Number of recurring events: X
+        - Account age: X months
+        - Storage used: X MB
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Performance
+      description: What performance do you expect?
+      placeholder: Describe the performance you think should be achievable...
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Workarounds
+      description: Any workarounds you've found?
+      placeholder: What can you do to work around this performance issue?
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm the following
+      options:
+        - label: I have searched existing performance issues to avoid duplicates
+          required: true
+        - label: I have provided detailed metrics and context
+          required: true
+        - label: I am using the latest version of RE:MIND
+          required: true
+        - label: I have cleared browser cache and tried in incognito mode
+          required: true
