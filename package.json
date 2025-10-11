@@ -1,27 +1,102 @@
 {
-  "name": "remindz",
-  "version": "0.1.0",
+  "name": "remind",
+  "version": "1.0.0",
+  "description": "RE:MIND - The Ultimate Reminder App",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:e2e": "playwright test",
+    "analyze": "cross-env ANALYZE=true next build",
+    "lighthouse": "lighthouse http://localhost:3000 --output html --output-path ./lighthouse-report.html",
+    "db:migrate": "node scripts/migrate.js",
+    "db:seed": "node scripts/seed.js",
+    "db:reset": "node scripts/reset.js",
+    "vapid:generate": "web-push generate-vapid-keys",
+    "postinstall": "prisma generate",
+    "prepare": "husky install"
   },
   "dependencies": {
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.5.4"
+    "next": "15.5.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "framer-motion": "^10.16.0",
+    "lucide-react": "^0.292.0",
+    "date-fns": "^2.30.0",
+    "zustand": "^4.4.0",
+    "web-push": "^3.6.0",
+    "jsonwebtoken": "^9.0.0",
+    "bcryptjs": "^2.4.3",
+    "prisma": "^5.7.0",
+    "@prisma/client": "^5.7.0",
+    "@next-auth/prisma-adapter": "^1.0.7",
+    "next-auth": "^4.24.0",
+    "@sentry/nextjs": "^7.85.0",
+    "sharp": "^0.33.0",
+    "nodemailer": "^6.9.0",
+    "@types/nodemailer": "^6.4.0"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
-    "eslint": "^9",
+    "eslint": "^8.0.0",
     "eslint-config-next": "15.5.4",
-    "@eslint/eslintrc": "^3"
-  }
+    "@types/bcryptjs": "^2.4.0",
+    "@types/jsonwebtoken": "^9.0.0",
+    "@types/jest": "^29.0.0",
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "playwright": "^1.40.0",
+    "@playwright/test": "^1.40.0",
+    "cross-env": "^7.0.0",
+    "@next/bundle-analyzer": "^15.5.4",
+    "lighthouse": "^11.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.0.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": [
+    "reminder",
+    "productivity",
+    "pwa",
+    "nextjs",
+    "typescript",
+    "tailwindcss"
+  ],
+  "author": "RE:MIND Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/remind.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/remind/issues"
+  },
+  "homepage": "https://remind.app"
 }
