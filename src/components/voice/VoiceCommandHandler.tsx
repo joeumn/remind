@@ -178,6 +178,7 @@ export function VoiceCommandHandler({
               ? 'bg-red-500 hover:bg-red-600 text-white shadow-lg'
               : 'bg-blue-500 hover:bg-blue-600 text-white'
           } disabled:opacity-50 disabled:cursor-not-allowed`}
+          title={isListening ? 'Stop listening' : 'Start listening'}
         >
           {isListening ? (
             <>

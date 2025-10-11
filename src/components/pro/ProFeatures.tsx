@@ -247,6 +247,7 @@ export function ProFeatures({ isOpen, onClose, currentPlan = 'free' }: ProFeatur
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              title="Close Pro Features"
             >
               <X className="w-5 h-5" />
             </button>

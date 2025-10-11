@@ -241,6 +241,7 @@ export function SmartTemplates({ onApplyTemplate, onClose, recentEvents = [] }: 
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              title="Close templates"
             >
               <X className="w-5 h-5" />
             </button>
@@ -263,6 +264,7 @@ export function SmartTemplates({ onApplyTemplate, onClose, recentEvents = [] }: 
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value as EventCategory | 'All')}
               className="px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 outline-none"
+              title="Filter templates by category"
             >
               <option value="All">All Categories</option>
               {categories.map(category => (
@@ -408,6 +410,7 @@ export function SmartTemplates({ onApplyTemplate, onClose, recentEvents = [] }: 
                           value={newTemplate.category}
                           onChange={(e) => setNewTemplate(prev => ({ ...prev, category: e.target.value as EventCategory }))}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 outline-none"
+                          title="Select template category"
                         >
                           {categories.map(category => (
                             <option key={category} value={category}>{category}</option>
@@ -421,6 +424,7 @@ export function SmartTemplates({ onApplyTemplate, onClose, recentEvents = [] }: 
                           value={newTemplate.priority}
                           onChange={(e) => setNewTemplate(prev => ({ ...prev, priority: e.target.value as EventPriority }))}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 outline-none"
+                          title="Select template priority"
                         >
                           <option value="Low">Low</option>
                           <option value="Medium">Medium</option>
@@ -437,6 +441,8 @@ export function SmartTemplates({ onApplyTemplate, onClose, recentEvents = [] }: 
                         value={newTemplate.estimatedDuration}
                         onChange={(e) => setNewTemplate(prev => ({ ...prev, estimatedDuration: parseInt(e.target.value) || 60 }))}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 outline-none"
+                        title="Template duration in minutes"
+                        placeholder="60"
                       />
                     </div>
                   </div>
