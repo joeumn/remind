@@ -10,10 +10,12 @@ import {
   Smartphone,
   ChevronRight,
   Save,
-  X
+  X,
+  Mic
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { VoiceProfileSettings } from '@/components/voice/VoiceProfileSettings'
 
 interface UserSettingsProps {
   isOpen: boolean
@@ -22,6 +24,7 @@ interface UserSettingsProps {
 
 export function UserSettings({ isOpen, onClose }: UserSettingsProps) {
   const [activeTab, setActiveTab] = useState('profile')
+  const [isVoiceSettingsOpen, setIsVoiceSettingsOpen] = useState(false)
   const [settings, setSettings] = useState({
     profile: {
       name: 'John Doe',
@@ -70,6 +73,7 @@ export function UserSettings({ isOpen, onClose }: UserSettingsProps) {
     { id: 'notifications', label: 'Notifications', icon: Bell },
     { id: 'privacy', label: 'Privacy & Security', icon: Shield },
     { id: 'appearance', label: 'Appearance', icon: Palette },
+    { id: 'voice', label: 'Voice Commands', icon: Mic },
     { id: 'accessibility', label: 'Accessibility', icon: Smartphone },
     { id: 'billing', label: 'Billing & Plans', icon: CreditCard },
   ]
@@ -307,6 +311,71 @@ export function UserSettings({ isOpen, onClose }: UserSettingsProps) {
                   </motion.div>
                 )}
 
+                {activeTab === 'voice' && (
+                  <motion.div
+                    key="voice"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="space-y-6"
+                  >
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                        Voice Command Settings
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Customize your voice triggers and commands for quick reminder creation
+                      </p>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                        <div className="flex items-center gap-3 mb-2">
+                          <Mic className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                          <h4 className="font-medium text-blue-800 dark:text-blue-200">
+                            Quick Setup
+                          </h4>
+                        </div>
+                        <p className="text-sm text-blue-700 dark:text-blue-300 mb-4">
+                          Set up custom voice triggers like &quot;Hey Wanda&quot; to quickly create reminders and events.
+                        </p>
+                        <button
+                          onClick={() => setIsVoiceSettingsOpen(true)}
+                          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                        >
+                          Configure Voice Commands
+                        </button>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                          <h4 className="font-medium text-gray-900 dark:text-white mb-2">
+                            Example Commands
+                          </h4>
+                          <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                            <li>• &quot;Hey Wanda, I need eggs&quot;</li>
+                            <li>• &quot;Schedule meeting tomorrow at 2pm&quot;</li>
+                            <li>• &quot;Remind me to call mom&quot;</li>
+                            <li>• &quot;Hey Wanda, get eggs and meeting at 12pm&quot;</li>
+                          </ul>
+                        </div>
+                        
+                        <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                          <h4 className="font-medium text-gray-900 dark:text-white mb-2">
+                            Smart Features
+                          </h4>
+                          <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                            <li>• Multiple commands in one sentence</li>
+                            <li>• Auto-detect tasks vs events</li>
+                            <li>• Custom trigger phrases</li>
+                            <li>• Continuous listening mode</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
                 {activeTab === 'billing' && (
                   <motion.div
                     key="billing"
@@ -418,6 +487,12 @@ export function UserSettings({ isOpen, onClose }: UserSettingsProps) {
           </div>
         </motion.div>
       </div>
+
+      {/* Voice Settings Modal */}
+      <VoiceProfileSettings 
+        isOpen={isVoiceSettingsOpen} 
+        onClose={() => setIsVoiceSettingsOpen(false)} 
+      />
     </AnimatePresence>
   )
 }

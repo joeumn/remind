@@ -18,9 +18,10 @@ import { generateEventId } from '@/utils/idGenerator'
 import { deduplicateEvents } from '@/utils/eventUtils'
 import { UserSettings } from '@/components/settings/UserSettings'
 import { AdPlacement } from '@/components/ads/AdPlacement'
+import { VoiceCommandHandler } from '@/components/voice/VoiceCommandHandler'
 import { OnboardingFlow } from '@/components/onboarding/OnboardingFlow'
 import { ViralSharing } from '@/components/sharing/ViralSharing'
-import { Settings, Share2, Download, Zap } from 'lucide-react'
+import { Settings, Share2, Download, Zap, Mic } from 'lucide-react'
 import { useDevice } from '@/hooks/useDevice'
 import { usePWAInstall } from '@/hooks/useDevice'
 import { useSync } from '@/hooks/useSync'
@@ -39,6 +40,7 @@ export function DashboardView() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false)
   const [isSharingOpen, setIsSharingOpen] = useState(false)
+  const [showVoiceHandler, setShowVoiceHandler] = useState(false)
   
   // Device and sync hooks
   const deviceInfo = useDevice()
@@ -191,6 +193,17 @@ export function DashboardView() {
             title="Share RE:MIND"
           >
             <Share2 className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => setShowVoiceHandler(!showVoiceHandler)}
+            className={`flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold transition-all shadow-sm hover:shadow-md ${
+              showVoiceHandler 
+                ? 'text-white bg-blue-500 hover:bg-blue-600' 
+                : 'text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+            } rounded-xl`}
+            title="Voice Commands"
+          >
+            <Mic className="w-4 h-4" />
           </button>
           <button
             onClick={() => setIsSettingsOpen(true)}
@@ -395,13 +408,29 @@ export function DashboardView() {
       {/* Viral Sharing Modal */}
       <ViralSharing isOpen={isSharingOpen} onClose={() => setIsSharingOpen(false)} />
 
+      {/* Voice Command Handler */}
+      {showVoiceHandler && (
+        <div className="fixed bottom-20 right-4 z-40 max-w-sm">
+          <VoiceCommandHandler 
+            onEventsCreated={(events) => {
+              console.log('Voice created events:', events)
+              setShowVoiceHandler(false)
+            }}
+            onTasksCreated={(tasks) => {
+              console.log('Voice created tasks:', tasks)
+              setShowVoiceHandler(false)
+            }}
+          />
+        </div>
+      )}
+
       {/* PWA Install Prompt */}
       {isInstallable && !deviceInfo.isPWA && (
         <div className="fixed bottom-4 left-4 right-4 z-40 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl p-4 shadow-lg">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Download className="w-6 h-6" />
-              <div>
+            <div>
                 <p className="font-semibold">Install RE:MIND</p>
                 <p className="text-sm text-blue-100">Get instant access from your home screen</p>
               </div>
