@@ -10,7 +10,11 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-gray-200">
       <div className="flex items-center justify-between h-16 px-4">
-        <button className="p-2 -ml-2 text-gray-700 hover:text-gray-900">
+        <button
+          className="p-2 -ml-2 text-gray-700 hover:text-gray-900"
+          title="Open menu"
+          aria-label="Open menu"
+        >
           <Menu className="w-6 h-6" />
         </button>
         
