@@ -19,6 +19,9 @@ import { deduplicateEvents } from '@/utils/eventUtils'
 import { UserSettings } from '@/components/settings/UserSettings'
 import { AdPlacement } from '@/components/ads/AdPlacement'
 import { VoiceCommandHandler } from '@/components/voice/VoiceCommandHandler'
+import { FloatingAssistant } from '@/components/assistant/FloatingAssistant'
+import { ScheduleViews } from '@/components/schedule/ScheduleViews'
+import { ProFeatures } from '@/components/pro/ProFeatures'
 import { OnboardingFlow } from '@/components/onboarding/OnboardingFlow'
 import { ViralSharing } from '@/components/sharing/ViralSharing'
 import { Settings, Share2, Download, Zap, Mic } from 'lucide-react'
@@ -27,7 +30,7 @@ import { usePWAInstall } from '@/hooks/useDevice'
 import { useSync } from '@/hooks/useSync'
 
 export function DashboardView() {
-  const { events: rawEvents, selectedDate, viewMode, setSelectedDate, setViewMode, addEvent } = useStore()
+  const { events: rawEvents, tasks, selectedDate, viewMode, setSelectedDate, setViewMode, addEvent } = useStore()
   
   // Deduplicate events to prevent duplicate key errors
   const events = useMemo(() => deduplicateEvents(rawEvents), [rawEvents])
@@ -41,6 +44,9 @@ export function DashboardView() {
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false)
   const [isSharingOpen, setIsSharingOpen] = useState(false)
   const [showVoiceHandler, setShowVoiceHandler] = useState(false)
+  const [showFloatingAssistant, setShowFloatingAssistant] = useState(false)
+  const [showProFeatures, setShowProFeatures] = useState(false)
+  const [assistantPosition, setAssistantPosition] = useState({ x: 50, y: 50 })
   
   // Device and sync hooks
   const deviceInfo = useDevice()
@@ -206,6 +212,24 @@ export function DashboardView() {
             <Mic className="w-4 h-4" />
           </button>
           <button
+            onClick={() => setShowFloatingAssistant(!showFloatingAssistant)}
+            className={`flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold transition-all shadow-sm hover:shadow-md ${
+              showFloatingAssistant 
+                ? 'text-white bg-purple-500 hover:bg-purple-600' 
+                : 'text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+            } rounded-xl`}
+            title="Floating Assistant"
+          >
+            <Zap className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => setShowProFeatures(true)}
+            className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-white bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 transition-all shadow-sm hover:shadow-md rounded-xl"
+            title="Pro Features"
+          >
+            <Download className="w-4 h-4" />
+          </button>
+          <button
             onClick={() => setIsSettingsOpen(true)}
             className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-all shadow-sm hover:shadow-md"
             title="Settings"
@@ -256,25 +280,15 @@ export function DashboardView() {
         </div>
       )}
 
-      {/* Today's Events */}
+      {/* Main Schedule View */}
       <div className="px-4 mb-6">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="p-2 bg-blue-100 rounded-lg">
-            <Clock className="w-5 h-5 text-blue-600" />
-          </div>
-          <div>
-            <h3 className="text-lg font-bold text-gray-900">
-              📅 Today&apos;s Schedule
-            </h3>
-            <p className="text-sm text-gray-600">
-              {todayEvents.length} reminder{todayEvents.length !== 1 ? 's' : ''} scheduled for today
-            </p>
-          </div>
-        </div>
-        <EventList
-          events={todayEvents}
-          viewMode="day"
+        <ScheduleViews
+          events={events}
+          tasks={tasks}
           selectedDate={selectedDate}
+          onDateChange={setSelectedDate}
+          onCreateEvent={() => setIsQuickAddOpen(true)}
+          onCreateTask={() => setIsQuickAddOpen(true)}
         />
       </div>
 
@@ -423,6 +437,22 @@ export function DashboardView() {
           />
         </div>
       )}
+
+      {/* Floating Assistant */}
+      <FloatingAssistant
+        isVisible={showFloatingAssistant}
+        onToggle={() => setShowFloatingAssistant(!showFloatingAssistant)}
+        position={assistantPosition}
+        onPositionChange={setAssistantPosition}
+        isProUser={false} // This would come from user settings
+      />
+
+      {/* Pro Features Modal */}
+      <ProFeatures
+        isOpen={showProFeatures}
+        onClose={() => setShowProFeatures(false)}
+        currentPlan="free" // This would come from user settings
+      />
 
       {/* PWA Install Prompt */}
       {isInstallable && !deviceInfo.isPWA && (

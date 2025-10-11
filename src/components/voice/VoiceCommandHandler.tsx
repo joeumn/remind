@@ -28,6 +28,7 @@ interface VoiceCommandHandlerProps {
 }
 
 export function VoiceCommandHandler({ 
+  
   onEventsCreated, 
   onTasksCreated 
 }: VoiceCommandHandlerProps) {
