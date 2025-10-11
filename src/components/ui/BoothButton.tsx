@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Megaphone, X } from 'lucide-react'
+import { Megaphone } from 'lucide-react'
 import { Booth } from './Booth'
 
 export function BoothButton() {

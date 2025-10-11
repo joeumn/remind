@@ -7,7 +7,6 @@ import {
   Shield, 
   CreditCard, 
   Palette, 
-  Globe, 
   Smartphone,
   ChevronRight,
   Save,

@@ -1,7 +1,7 @@
 // Analytics and monitoring utilities
 export interface AnalyticsEvent {
   event_type: string
-  event_data?: Record<string, any>
+  event_data?: Record<string, unknown>
   user_id?: string
   session_id?: string
 }
@@ -26,7 +26,7 @@ export class Analytics {
     return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
   }
 
-  track(eventType: string, eventData?: Record<string, any>, userId?: string) {
+  track(eventType: string, eventData?: Record<string, unknown>, userId?: string) {
     const event: AnalyticsEvent = {
       event_type: eventType,
       event_data: eventData,
@@ -83,7 +83,7 @@ export class Analytics {
     this.track('feature_used', { feature }, userId)
   }
 
-  trackError(error: string, context?: Record<string, any>, userId?: string) {
+  trackError(error: string, context?: Record<string, unknown>, userId?: string) {
     this.track('error', { error, context }, userId)
   }
 

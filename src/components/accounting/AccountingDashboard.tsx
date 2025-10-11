@@ -5,7 +5,6 @@ import {
   DollarSign, 
   TrendingUp, 
   Users, 
-  Calendar,
   CreditCard,
   FileText,
   BarChart3,

@@ -4,7 +4,7 @@ export interface PerformanceMetric {
   name: string
   value: number
   timestamp: number
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
 }
 
 export class PerformanceMonitor {
@@ -36,7 +36,7 @@ export class PerformanceMonitor {
     return result
   }
 
-  recordMetric(name: string, value: number, metadata?: Record<string, any>) {
+  recordMetric(name: string, value: number, metadata?: Record<string, unknown>) {
     const metric: PerformanceMetric = {
       name,
       value,
@@ -57,8 +57,8 @@ export class PerformanceMonitor {
     }
 
     // Send to analytics if available
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'timing_complete', {
+    if (typeof window !== 'undefined' && (window as Window & { gtag?: (command: string, action: string, params: Record<string, unknown>) => void }).gtag) {
+      (window as Window & { gtag: (command: string, action: string, params: Record<string, unknown>) => void }).gtag('event', 'timing_complete', {
         name: name,
         value: Math.round(value)
       })
@@ -118,8 +118,9 @@ export function measureWebVitals() {
   new PerformanceObserver((entryList) => {
     let clsValue = 0
     for (const entry of entryList.getEntries()) {
-      if (!(entry as any).hadRecentInput) {
-        clsValue += (entry as any).value
+      const layoutShiftEntry = entry as PerformanceEntry & { hadRecentInput?: boolean; value?: number }
+      if (!layoutShiftEntry.hadRecentInput && layoutShiftEntry.value) {
+        clsValue += layoutShiftEntry.value
       }
     }
     performanceMonitor.recordMetric('cls', clsValue)

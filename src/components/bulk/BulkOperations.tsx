@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckSquare, Square, Trash2, Tag, AlertCircle, Calendar, X } from 'lucide-react'
+import { CheckSquare, Square, Trash2, Tag, X } from 'lucide-react'
 import { Event, EventCategory, EventPriority } from '@/types'
 import { formatDate } from '@/lib/utils/date'
 
@@ -31,7 +31,7 @@ export function BulkOperations({
     addHours: 0
   })
 
-  const selectedEventsData = events.filter(event => selectedEvents.includes(event.id))
+  const _selectedEventsData = events.filter(event => selectedEvents.includes(event.id))
   const isAllSelected = selectedEvents.length === events.length && events.length > 0
   const isPartiallySelected = selectedEvents.length > 0 && selectedEvents.length < events.length
 

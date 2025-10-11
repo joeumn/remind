@@ -3,12 +3,9 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { 
-  Share2, 
   Copy, 
   QrCode, 
   Gift, 
-  Users, 
-  Star,
   Twitter,
   Facebook,
   MessageSquare,
@@ -24,7 +21,7 @@ interface ViralSharingProps {
 
 export function ViralSharing({ isOpen, onClose }: ViralSharingProps) {
   const [copied, setCopied] = useState(false)
-  const [selectedMethod, setSelectedMethod] = useState<string | null>(null)
+  const [_selectedMethod, _setSelectedMethod] = useState<string | null>(null)
 
   // Mock user data - in real app, this would come from user profile
   const userReferralCode = 'REMINDS-JOHN-2024'
@@ -87,7 +84,7 @@ export function ViralSharing({ isOpen, onClose }: ViralSharingProps) {
   }
 
   const handleShare = async (method: string) => {
-    const shareData = {
+    const _shareData = {
       title: 'RE:MIND - The Ultimate Reminder App',
       text: shareText,
       url: referralLink
