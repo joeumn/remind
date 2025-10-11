@@ -16,6 +16,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { VoiceProfileSettings } from '@/components/voice/VoiceProfileSettings'
+import { VolumeCaptureSettings } from '@/components/settings/VolumeCaptureSettings'
 
 interface UserSettingsProps {
   isOpen: boolean
