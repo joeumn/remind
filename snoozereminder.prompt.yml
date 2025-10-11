@@ -148,4 +148,4 @@ messages:
       Output format: Follow the Output contract (Summary → Changes → Patch →
       Tests → Verification → Risks & Rollback → Follow-ups). Provide a single
       unified diff that applies at the repo root.
-model: openai/gpt-5
+model: openai/gpt-5-chat
