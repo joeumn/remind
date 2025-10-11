@@ -48,7 +48,10 @@
     "@sentry/nextjs": "^8.0.0",
     "sharp": "^0.33.0",
     "nodemailer": "^6.9.0",
-    "@types/nodemailer": "^6.4.0"
+    "@types/nodemailer": "^6.4.0",
+    "@supabase/ssr": "^0.1.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^8.0.0",
