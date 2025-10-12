@@ -12,7 +12,8 @@ import {
   X,
   Star,
   Trophy,
-  CreditCard
+  CreditCard,
+  Crown
 } from 'lucide-react'
 
 interface ReferralRewardsProps {

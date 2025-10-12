@@ -185,13 +185,7 @@ export function FloatingAssistant({
         location: eventInfo.location || '',
         category: eventInfo.category,
         priority: eventInfo.priority,
-        reminder_settings: {
-          enabled: true,
-          reminders: [
-            { value: 15, unit: 'minutes' },
-            { value: 1, unit: 'hours' }
-          ]
-        },
+        recurrence_type: 'None',
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
         user_id: 'current-user'

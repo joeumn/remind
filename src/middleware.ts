@@ -20,7 +20,7 @@ export function middleware(request: NextRequest) {
   )
 
   // Rate limiting (basic implementation)
-  const ip = request.ip ?? '127.0.0.1'
+  const ip = request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? '127.0.0.1'
   const rateLimitKey = `rate_limit_${ip}`
   
   // Check rate limit (you'd implement this with Redis in production)

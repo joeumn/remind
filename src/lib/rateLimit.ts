@@ -71,7 +71,7 @@ class RateLimiter {
   }
   
   private defaultKeyGenerator(req: NextRequest): string {
-    const ip = req.ip ?? req.headers.get('x-forwarded-for') ?? 'unknown'
+    const ip = req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown'
     const userAgent = req.headers.get('user-agent') ?? 'unknown'
     return `${ip}:${userAgent}`
   }
@@ -91,8 +91,8 @@ export function createRateLimit(config: RateLimitConfig) {
           'X-RateLimit-Limit': info.limit.toString(),
           'X-RateLimit-Remaining': '0',
           'X-RateLimit-Reset': Math.ceil(info.reset / 1000).toString(),
-          'Retry-After': info.retryAfter?.toString() ?? '60'
-        }
+          'Retry-After': (info.retryAfter?.toString() ?? '60')
+        } as Record<string, string>
       }
     }
     
@@ -103,7 +103,7 @@ export function createRateLimit(config: RateLimitConfig) {
         'X-RateLimit-Limit': info.limit.toString(),
         'X-RateLimit-Remaining': info.remaining.toString(),
         'X-RateLimit-Reset': Math.ceil(info.reset / 1000).toString()
-      }
+      } as Record<string, string>
     }
   }
 }
@@ -113,7 +113,7 @@ export const authRateLimit = createRateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   maxRequests: 5, // 5 attempts per window
   keyGenerator: (req) => {
-    const ip = req.ip ?? req.headers.get('x-forwarded-for') ?? 'unknown'
+    const ip = req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown'
     return `auth:${ip}`
   }
 })

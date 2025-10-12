@@ -284,8 +284,8 @@ export function ProFeatures({ isOpen, onClose, currentPlan = 'free' }: ProFeatur
                   <div className="grid md:grid-cols-2 gap-4">
                     {category.features.map((feature, featureIndex) => {
                       const Icon = feature.icon
-                      const isProFeature = feature.pro && currentPlan === 'free'
-                      const isEnterpriseFeature = feature.enterprise && currentPlan !== 'enterprise'
+                      const isProFeature = (feature as any).pro && currentPlan === 'free'
+                      const isEnterpriseFeature = (feature as any).enterprise && currentPlan !== 'enterprise'
                       
                       return (
                         <motion.div

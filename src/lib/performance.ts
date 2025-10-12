@@ -110,7 +110,7 @@ export function measureWebVitals() {
   // First Input Delay
   new PerformanceObserver((entryList) => {
     for (const entry of entryList.getEntries()) {
-      performanceMonitor.recordMetric('fid', entry.processingStart - entry.startTime)
+      performanceMonitor.recordMetric('fid', (entry as any).processingStart - entry.startTime)
     }
   }).observe({ entryTypes: ['first-input'] })
 
@@ -164,10 +164,10 @@ export function measureNavigationTiming() {
       navigation.responseEnd - navigation.requestStart)
     
     performanceMonitor.recordMetric('dom_processing', 
-      navigation.domContentLoadedEventEnd - navigation.domLoading)
+      navigation.domContentLoadedEventEnd - (navigation as any).domLoading)
     
     performanceMonitor.recordMetric('page_load', 
-      navigation.loadEventEnd - navigation.navigationStart)
+      navigation.loadEventEnd - (navigation as any).navigationStart)
   }
 }
 

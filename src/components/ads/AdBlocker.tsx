@@ -108,7 +108,7 @@ export function AdBlocker({ isProUser, children }: AdBlockerProps) {
 export function AdPlacement({ 
   isProUser, 
   className = '',
-  placement = 'default'
+  placement = 'banner'
 }: AdPlacementProps & { placement?: 'banner' | 'sidebar' | 'inline' | 'popup' }) {
   
   if (isProUser) {

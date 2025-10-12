@@ -307,7 +307,7 @@ export class VoiceCommandSystem {
 
   public isSupported(): boolean {
     return typeof window !== 'undefined' && 
-           (window.SpeechRecognition || window.webkitSpeechRecognition)
+           !!(window.SpeechRecognition || (window as any).webkitSpeechRecognition)
   }
 }
 
@@ -337,13 +337,7 @@ export function createEventFromVoiceCommand(command: ParsedVoiceCommand): Event[
       location: '',
       category: category,
       priority: 'Medium',
-      reminder_settings: {
-        enabled: true,
-        reminders: [
-          { value: 15, unit: 'minutes' },
-          { value: 1, unit: 'hours' }
-        ]
-      },
+      recurrence_type: 'None',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       user_id: 'current-user' // Will be set by the calling component

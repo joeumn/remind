@@ -106,13 +106,7 @@ export function InstantCapture({ isOpen, onClose, initialText = '', quickMode = 
           location: eventData.location || '',
           category: eventData.category,
           priority: eventData.priority,
-          reminder_settings: {
-            enabled: true,
-            reminders: [
-              { value: 15, unit: 'minutes' },
-              { value: 1, unit: 'hours' }
-            ]
-          },
+          recurrence_type: 'None',
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
           user_id: 'current-user'
@@ -129,12 +123,7 @@ export function InstantCapture({ isOpen, onClose, initialText = '', quickMode = 
           is_all_day: true,
           category: 'Personal',
           priority: 'Medium',
-          reminder_settings: {
-            enabled: true,
-            reminders: [
-              { value: 1, unit: 'hours' }
-            ]
-          },
+          recurrence_type: 'None',
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
           user_id: 'current-user'

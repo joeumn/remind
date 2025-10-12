@@ -17,7 +17,6 @@ import { Suspense } from 'react'
 import { generateEventId } from '@/utils/idGenerator'
 import { deduplicateEvents } from '@/utils/eventUtils'
 import { UserSettings } from '@/components/settings/UserSettings'
-import { AdPlacement } from '@/components/ads/AdPlacement'
 import { VoiceCommandHandler } from '@/components/voice/VoiceCommandHandler'
 import { InstantCapture } from '@/components/capture/InstantCapture'
 import { AdBlocker, AdPlacement } from '@/components/ads/AdBlocker'
@@ -58,7 +57,7 @@ export function DashboardView() {
   const syncStatus = useSyncStatus()
   
   // Check if user is Pro (mock - in real app, get from user context)
-  const isProUser = localStorage.getItem('user_pro_status') === 'true'
+  const isProUser = typeof window !== 'undefined' ? localStorage.getItem('user_pro_status') === 'true' : false
   
   // Device and sync hooks
   const deviceInfo = useDevice()

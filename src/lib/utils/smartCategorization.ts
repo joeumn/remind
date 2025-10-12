@@ -88,7 +88,9 @@ export function analyzeTextForCategory(text: string): { category: EventCategory;
   // Limit cache size to prevent memory leaks
   if (categoryCache.size > 1000) {
     const firstKey = categoryCache.keys().next().value
-    categoryCache.delete(firstKey)
+    if (firstKey) {
+      categoryCache.delete(firstKey)
+    }
   }
   
   return bestMatch
@@ -109,7 +111,7 @@ export function suggestCategoryFromContext(
     if (hour >= 6 && hour < 9) {
       if (baseAnalysis.category === 'Personal' || baseAnalysis.category === 'Recovery') {
         baseAnalysis.confidence += 0.1
-        baseAnalysis.reasoning = 'Early morning activities'
+        ;(baseAnalysis as any).reasoning = 'Early morning activities'
       }
     }
     
@@ -117,7 +119,7 @@ export function suggestCategoryFromContext(
     if (hour >= 9 && hour < 17) {
       if (baseAnalysis.category === 'Work') {
         baseAnalysis.confidence += 0.15
-        baseAnalysis.reasoning = 'Business hours'
+        ;(baseAnalysis as any).reasoning = 'Business hours'
       }
     }
     
@@ -125,7 +127,7 @@ export function suggestCategoryFromContext(
     if (hour >= 17 && hour < 21) {
       if (baseAnalysis.category === 'Family' || baseAnalysis.category === 'Personal') {
         baseAnalysis.confidence += 0.1
-        baseAnalysis.reasoning = 'Evening time'
+        ;(baseAnalysis as any).reasoning = 'Evening time'
       }
     }
   }
@@ -136,7 +138,7 @@ export function suggestCategoryFromContext(
     if (dayOfWeek === 0 || dayOfWeek === 6) { // Sunday or Saturday
       if (baseAnalysis.category === 'Family' || baseAnalysis.category === 'Personal') {
         baseAnalysis.confidence += 0.1
-        baseAnalysis.reasoning = 'Weekend activities'
+        ;(baseAnalysis as any).reasoning = 'Weekend activities'
       }
     }
   }

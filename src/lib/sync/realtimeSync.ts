@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { Event } from '@/types'
 import { createClient } from '@supabase/supabase-js'
 
@@ -353,8 +354,8 @@ export class RealtimeSyncSystem {
       location: event.location,
       category: event.category,
       priority: event.priority,
-      status: event.status,
-      reminder_settings: JSON.stringify(event.reminder_settings),
+      recurrence_type: event.recurrence_type,
+      // reminder_settings: JSON.stringify(event.reminder_settings),
       user_id: event.user_id,
       created_at: event.created_at,
       updated_at: event.updated_at
@@ -372,8 +373,8 @@ export class RealtimeSyncSystem {
       location: dbEvent.location,
       category: dbEvent.category,
       priority: dbEvent.priority,
-      status: dbEvent.status,
-      reminder_settings: dbEvent.reminder_settings ? JSON.parse(dbEvent.reminder_settings) : undefined,
+      recurrence_type: dbEvent.recurrence_type || 'None',
+      // reminder_settings: dbEvent.reminder_settings ? JSON.parse(dbEvent.reminder_settings) : undefined,
       user_id: dbEvent.user_id,
       created_at: dbEvent.created_at,
       updated_at: dbEvent.updated_at

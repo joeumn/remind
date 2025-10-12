@@ -105,7 +105,7 @@ export function useSync() {
       serverEvents.forEach((serverEvent: any) => {
         const localEvent = events.find(e => e.id === serverEvent.id)
         if (!localEvent || new Date(serverEvent.updated_at) > new Date(localEvent.updated_at)) {
-          updateEvent(serverEvent)
+          updateEvent(serverEvent.id, serverEvent)
         }
       })
       

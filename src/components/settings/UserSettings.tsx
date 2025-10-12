@@ -370,7 +370,8 @@ export function UserSettings({ isOpen, onClose }: UserSettingsProps) {
                             <li>• Auto-detect tasks vs events</li>
                             <li>• Custom trigger phrases</li>
                             <li>• Continuous listening mode</li>
-                                                    </div>
+                          </ul>
+                        </div>
                       </div>
                     </div>
                   </motion.div>

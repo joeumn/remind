@@ -1,4 +1,4 @@
-                                                                                               t'use client'
+'use client'
 
 import { Event, EventCategory, EventPriority } from '@/types'
 import { analyzeTextForCategory } from '@/lib/utils/smartCategorization'
@@ -88,7 +88,7 @@ export class EnhancedNLPSystem {
       { regex: /\blong\b/i, duration: 120 },
       { regex: /\bmeeting\b/i, duration: 60 },
       { regex: /\bappointment\b/i, duration: 45 }
-    ],
+    ] as Array<{ regex: RegExp; multiplier?: number; duration?: number }>,
 
     // Location patterns
     locationPatterns: [
@@ -349,15 +349,11 @@ export class EnhancedNLPSystem {
 
   private extractDuration(sentence: string): number | null {
     for (const pattern of this.patterns.durationPatterns) {
-      if ('regex' in pattern) {
-        const match = sentence.match(pattern.regex)
-        if (match) {
-          if ('multiplier' in pattern) {
-            return parseInt(match[1]) * pattern.multiplier
-          }
-        }
-      } else if ('duration' in pattern) {
-        if (pattern.regex.test(sentence)) {
+      const match = sentence.match(pattern.regex)
+      if (match) {
+        if ('multiplier' in pattern && pattern.multiplier !== undefined) {
+          return parseInt(match[1]) * pattern.multiplier
+        } else if ('duration' in pattern && pattern.duration !== undefined) {
           return pattern.duration
         }
       }
@@ -566,9 +562,9 @@ export class EnhancedNLPSystem {
         const event2 = currentSchedule[j]
         
         const start1 = new Date(event1.start_date)
-        const end1 = new Date(event1.end_date)
+        const end1 = new Date(event1.end_date || event1.start_date)
         const start2 = new Date(event2.start_date)
-        const end2 = new Date(event2.end_date)
+        const end2 = new Date(event2.end_date || event2.start_date)
         
         if (start1 < end2 && start2 < end1) {
           suggestions.push({

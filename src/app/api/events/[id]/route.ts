@@ -6,7 +6,7 @@ import { handleApiError, AppError } from '@/lib/errorHandler'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Rate limiting
@@ -24,7 +24,7 @@ export async function GET(
       throw new AppError('Unauthorized', 401)
     }
 
-    const eventId = params.id
+    const { id: eventId } = await params
 
     // Fetch event from database
     const event = await prisma.event.findFirst({
@@ -47,7 +47,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Rate limiting
@@ -65,7 +65,7 @@ export async function PUT(
       throw new AppError('Unauthorized', 401)
     }
 
-    const eventId = params.id
+    const { id: eventId } = await params
     const body = await request.json()
 
     // Validate event exists and belongs to user
@@ -109,7 +109,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Rate limiting
@@ -127,7 +127,7 @@ export async function DELETE(
       throw new AppError('Unauthorized', 401)
     }
 
-    const eventId = params.id
+    const { id: eventId } = await params
 
     // Validate event exists and belongs to user
     const existingEvent = await prisma.event.findFirst({

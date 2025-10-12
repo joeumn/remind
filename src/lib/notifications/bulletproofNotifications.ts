@@ -199,19 +199,6 @@ export class BulletproofNotificationSystem {
         tag: `reminder-${event.id}`,
         requireInteraction: event.priority === 'Urgent',
         silent: false,
-        vibrate: event.priority === 'Urgent' ? [200, 100, 200] : [100],
-        actions: [
-          {
-            action: 'snooze',
-            title: 'Snooze 15min',
-            icon: '/icons/snooze.png'
-          },
-          {
-            action: 'complete',
-            title: 'Mark Done',
-            icon: '/icons/check.png'
-          }
-        ],
         data: {
           eventId: event.id,
           priority: event.priority,
@@ -441,8 +428,8 @@ export class BulletproofNotificationSystem {
           
           // Handle push events
           registration.addEventListener('push', (event) => {
-            if (event.data) {
-              const data = event.data.json()
+            if ((event as any).data) {
+              const data = (event as any).data.json()
               this.handlePushEvent(data)
             }
           })

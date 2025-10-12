@@ -82,13 +82,13 @@ export async function POST(request: NextRequest) {
       cancel_url: cancelUrl,
       customer_email: user.email,
       metadata: {
-        userId: user.id,
+        userId: user.userId,
         planId: planId,
         userEmail: user.email,
       },
       subscription_data: {
         metadata: {
-          userId: user.id,
+          userId: user.userId,
           planId: planId,
           userEmail: user.email,
         },

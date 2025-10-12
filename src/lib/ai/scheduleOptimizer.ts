@@ -131,9 +131,9 @@ export class ScheduleOptimizer {
         const event2 = events[j]
 
         const start1 = new Date(event1.start_date)
-        const end1 = new Date(event1.end_date)
+        const end1 = new Date(event1.end_date || event1.start_date)
         const start2 = new Date(event2.start_date)
-        const end2 = new Date(event2.end_date)
+        const end2 = new Date(event2.end_date || event2.start_date)
 
         if (start1 < end2 && start2 < end1) {
           const overlap = Math.min(end1.getTime(), end2.getTime()) - Math.max(start1.getTime(), start2.getTime())
@@ -172,7 +172,7 @@ export class ScheduleOptimizer {
 
       if (currentEvent.location && nextEvent.location) {
         const travelTime = this.estimateTravelTime(currentEvent.location, nextEvent.location)
-        const timeBetween = new Date(nextEvent.start_date).getTime() - new Date(currentEvent.end_date).getTime()
+         const timeBetween = new Date(nextEvent.start_date).getTime() - new Date(currentEvent.end_date || currentEvent.start_date).getTime()
         const timeBetweenMinutes = timeBetween / (1000 * 60)
 
         if (timeBetweenMinutes < travelTime + this.userPreferences.travelBuffer) {
@@ -211,7 +211,7 @@ export class ScheduleOptimizer {
       const currentEvent = events[i]
       const nextEvent = events[i + 1]
 
-      const timeBetween = new Date(nextEvent.start_date).getTime() - new Date(currentEvent.end_date).getTime()
+         const timeBetween = new Date(nextEvent.start_date).getTime() - new Date(currentEvent.end_date || currentEvent.start_date).getTime()
       const timeBetweenMinutes = timeBetween / (1000 * 60)
 
       if (timeBetweenMinutes <= this.userPreferences.preferredBreakTime) {
@@ -277,7 +277,7 @@ export class ScheduleOptimizer {
       const nextEvent = events[i + 1]
 
       if (currentEvent.priority === 'Urgent' && nextEvent.priority === 'Urgent') {
-        const timeBetween = new Date(nextEvent.start_date).getTime() - new Date(currentEvent.end_date).getTime()
+         const timeBetween = new Date(nextEvent.start_date).getTime() - new Date(currentEvent.end_date || currentEvent.start_date).getTime()
         const timeBetweenMinutes = timeBetween / (1000 * 60)
 
         if (timeBetweenMinutes < 60) { // Less than 1 hour between urgent events
@@ -349,7 +349,7 @@ export class ScheduleOptimizer {
     const optimizations: OptimizationSuggestion[] = []
 
     events.forEach(event => {
-      const duration = new Date(event.end_date).getTime() - new Date(event.start_date).getTime()
+      const duration = new Date(event.end_date || event.start_date).getTime() - new Date(event.start_date).getTime()
       const durationMinutes = duration / (1000 * 60)
       
       const suggestedDuration = this.getOptimalDurationForCategory(event.category, event.title)
@@ -371,7 +371,7 @@ export class ScheduleOptimizer {
             }
           ],
           alternatives: [{
-            originalTime: new Date(event.end_date),
+            originalTime: new Date(event.end_date || event.start_date),
             suggestedTime: new Date(new Date(event.start_date).getTime() + suggestedDuration * 60000),
             reasoning: `Optimal duration for ${event.category} activities`,
             confidence: 0.6
@@ -392,9 +392,9 @@ export class ScheduleOptimizer {
         const event2 = events[j]
 
         const start1 = new Date(event1.start_date)
-        const end1 = new Date(event1.end_date)
+        const end1 = new Date(event1.end_date || event1.start_date)
         const start2 = new Date(event2.start_date)
-        const end2 = new Date(event2.end_date)
+        const end2 = new Date(event2.end_date || event2.start_date)
 
         if (start1 < end2 && start2 < end1) {
           conflicts++
@@ -429,7 +429,7 @@ export class ScheduleOptimizer {
       const currentEvent = events[i]
       const nextEvent = events[i + 1]
 
-      const timeBetween = new Date(nextEvent.start_date).getTime() - new Date(currentEvent.end_date).getTime()
+         const timeBetween = new Date(nextEvent.start_date).getTime() - new Date(currentEvent.end_date || currentEvent.start_date).getTime()
       const timeBetweenMinutes = timeBetween / (1000 * 60)
 
       if (timeBetweenMinutes <= this.userPreferences.preferredBreakTime) {
@@ -463,7 +463,7 @@ export class ScheduleOptimizer {
       const nextEvent = events[i + 1]
 
       if (currentEvent.priority === 'Urgent' && nextEvent.priority === 'Urgent') {
-        const timeBetween = new Date(nextEvent.start_date).getTime() - new Date(currentEvent.end_date).getTime()
+         const timeBetween = new Date(nextEvent.start_date).getTime() - new Date(currentEvent.end_date || currentEvent.start_date).getTime()
         const timeBetweenMinutes = timeBetween / (1000 * 60)
 
         if (timeBetweenMinutes < 60) {
@@ -629,7 +629,7 @@ export class ScheduleOptimizer {
       const currentEvent = events[i]
       const nextEvent = events[i + 1]
       
-      const breakTime = new Date(currentEvent.end_date)
+      const breakTime = new Date(currentEvent.end_date || currentEvent.start_date)
       breakTime.setMinutes(breakTime.getMinutes() + this.userPreferences.preferredBreakTime)
       
       alternatives.push({
@@ -644,7 +644,7 @@ export class ScheduleOptimizer {
   }
 
   private generateDeadlineAlternatives(urgentEvents: Event[]) {
-    const alternatives = []
+    const alternatives: any[] = []
     
     // Suggest spreading urgent events throughout the day
     urgentEvents.forEach((event, index) => {

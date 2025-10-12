@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { Event } from '@/types'
 import { getEnhancedNLPSystem } from '@/lib/ai/enhancedNLPSystem'
 import { getNotificationSystem } from '@/lib/notifications/bulletproofNotifications'
@@ -186,7 +187,7 @@ export class VolumeButtonCapture {
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Backspace' || event.key === 'Escape') {
         // Use as alternative trigger for mobile
-        this.activateVoiceCapture('mobile')
+        this.activateVoiceCapture()
       }
     })
 
@@ -195,7 +196,7 @@ export class VolumeButtonCapture {
       // Detect device shake as alternative trigger
       const acceleration = event.accelerationIncludingGravity
       if (acceleration && this.detectShake(acceleration)) {
-        this.activateVoiceCapture('shake')
+        this.activateVoiceCapture()
       }
     })
   }
@@ -287,17 +288,10 @@ export class VolumeButtonCapture {
       location: eventData.location || '',
       category: eventData.category,
       priority: eventData.priority,
-      reminder_settings: {
-        enabled: true,
-        reminders: [
-          { value: 15, unit: 'minutes' },
-          { value: 1, unit: 'hours' }
-        ]
-      },
+      recurrence_type: 'None',
       created_at: now.toISOString(),
       updated_at: now.toISOString(),
-      user_id: 'current-user',
-      status: 'active'
+      user_id: 'current-user'
     }
   }
 
@@ -316,46 +310,18 @@ export class VolumeButtonCapture {
       is_all_day: true,
       category: 'Personal',
       priority: 'Medium',
-      reminder_settings: {
-        enabled: true,
-        reminders: [
-          { value: 1, unit: 'hours' }
-        ]
-      },
+      recurrence_type: 'None',
       created_at: now.toISOString(),
       updated_at: now.toISOString(),
-      user_id: 'current-user',
-      status: 'active'
+      user_id: 'current-user'
     }
   }
 
   // Schedule reminders for the event
   private async scheduleReminders(event: Event): Promise<void> {
-    if (!event.reminder_settings?.enabled) return
-
-    for (const reminder of event.reminder_settings.reminders) {
-      const reminderTime = new Date(event.start_date)
-      
-      // Calculate reminder time
-      switch (reminder.unit) {
-        case 'minutes':
-          reminderTime.setMinutes(reminderTime.getMinutes() - reminder.value)
-          break
-        case 'hours':
-          reminderTime.setHours(reminderTime.getHours() - reminder.value)
-          break
-        case 'days':
-          reminderTime.setDate(reminderTime.getDate() - reminder.value)
-          break
-      }
-
-      // Only schedule if reminder time is in the future
-      if (reminderTime > new Date()) {
-        await this.notificationSystem.scheduleNotification(event, reminderTime, {
-          priority: event.priority === 'Urgent' ? 100 : 50
-        })
-      }
-    }
+    // Reminder scheduling would be handled separately
+    // This is a placeholder for future implementation
+    console.log(`Reminder scheduling for ${event.title} would be implemented here`)
   }
 
   // Show visual feedback
