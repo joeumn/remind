@@ -2,7 +2,7 @@
 declare function gtag(
   command: 'config' | 'event' | 'js' | 'set',
   targetId: string,
-  config?: Record<string, any>
+  config?: Record<string, unknown>
 ): void
 
-declare var gtag: typeof gtag
+declare const gtag: typeof gtag

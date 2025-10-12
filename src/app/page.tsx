@@ -77,7 +77,7 @@ export default function Home() {
                   <div className="p-2 bg-gradient-primary rounded-xl group-hover:scale-110 transition-transform">
                     <Mic className="h-6 w-6 text-white" />
                   </div>
-                  <span className="text-lg font-medium">Voice-first design - just speak and it's done</span>
+                  <span className="text-lg font-medium">Voice-first design - just speak and it&apos;s done</span>
                 </div>
                 <div className="flex items-center space-x-4 group">
                   <div className="p-2 bg-gradient-secondary rounded-xl group-hover:scale-110 transition-transform">
