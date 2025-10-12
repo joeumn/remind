@@ -1,247 +1,176 @@
-'use client'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { CheckCircle, XCircle } from "lucide-react"
+import Link from "next/link"
 
-import Link from 'next/link'
-import { useState } from 'react'
-import { Check, ArrowRight } from 'lucide-react'
-import { motion } from 'framer-motion'
-import { StripeCheckout } from '@/components/payments/StripeCheckout'
-
-const tiers = [
-  {
-    id: 'free',
-    name: 'Free',
-    price: 0,
-    period: 'forever',
-    description: 'Perfect for getting started',
-    features: [
-      'Up to 10 events per month',
-      'Basic reminders (1 day, 1 hour)',
-      'Push notifications only',
-      'Single category',
-      'Mobile web app access',
-      '🎯 UP→DOWN volume capture',
-    ],
-    cta: 'Start Free',
-    highlighted: false,
-  },
-  {
-    id: 'pro-monthly',
-    name: 'Pro',
-    price: 9.99,
-    period: 'per month',
-    description: 'For busy professionals',
-    features: [
-      '🚫 Zero ads - Clean experience',
-      '🎯 UP→DOWN volume capture',
-      '🎤 Unlimited voice commands',
-      '🤖 Advanced AI features',
-      '🔔 Bulletproof notifications',
-      '📱 Unlimited devices & sync',
-      '💰 $5 referral rewards',
-      '🚀 Priority support',
-    ],
-    cta: 'Upgrade to Pro',
-    highlighted: true,
-  },
-  {
-    id: 'elite-monthly',
-    name: 'Elite',
-    price: 24.99,
-    period: 'per month',
-    description: 'Maximum reliability & control',
-    features: [
-      'Everything in Pro',
-      '👥 Team collaboration (up to 5)',
-      '🔌 API access',
-      '🎨 Custom branding',
-      '📊 Advanced analytics',
-      '🤝 Dedicated support',
-      '🏢 White-label option',
-      '🔧 Custom integrations',
-    ],
-    cta: 'Go Elite',
-    highlighted: false,
-  },
-]
-
-export default function PricingPage() {
-  const [showCheckout, setShowCheckout] = useState(false)
-  const [selectedPlan, setSelectedPlan] = useState<any>(null)
-
-  const handleUpgrade = (tier: any) => {
-    if (tier.id === 'free') {
-      // Redirect to dashboard for free plan
-      window.location.href = '/dashboard'
-      return
-    }
-
-    setSelectedPlan({
-      id: tier.id,
-      name: tier.name,
-      price: tier.price,
-      interval: tier.period.includes('month') ? 'monthly' : 'yearly',
-      features: tier.features
-    })
-    setShowCheckout(true)
-  }
-
-  const handlePaymentSuccess = (subscription: any) => {
-    console.log('Payment successful:', subscription)
-    // Redirect to dashboard with success message
-    window.location.href = '/dashboard?upgrade=success'
-  }
-
+export default function Pricing() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      {/* Header */}
-      <header className="border-b border-gray-200 bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-blue-600">
-            RE:MIND
-          </Link>
-          <Link
-            href="/dashboard"
-            className="px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-          >
-            Dashboard
-          </Link>
+    <div className="container max-w-6xl mx-auto px-4 py-16">
+      <div className="text-center mb-16">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">Simple, Transparent Pricing</h1>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          Start free, upgrade when you need more power. No hidden fees, no surprises.
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {/* Free Plan */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Free</CardTitle>
+            <CardDescription>Perfect for getting started</CardDescription>
+            <div className="text-3xl font-bold">$0<span className="text-sm font-normal text-muted-foreground">/month</span></div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ul className="space-y-3">
+              <li className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span>Up to 10 reminders</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span>Basic push notifications</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span>Mobile & desktop access</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span>Voice capture (UP→DOWN)</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <XCircle className="h-4 w-4 text-muted-foreground" />
+                <span className="text-muted-foreground">Email notifications</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <XCircle className="h-4 w-4 text-muted-foreground" />
+                <span className="text-muted-foreground">SMS notifications</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <XCircle className="h-4 w-4 text-muted-foreground" />
+                <span className="text-muted-foreground">Priority support</span>
+              </li>
+            </ul>
+            <Link href="/auth/register">
+              <Button className="w-full" variant="outline">
+                Get Started Free
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+
+        {/* Pro Plan */}
+        <Card className="relative border-primary">
+          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+            <Badge className="bg-primary text-primary-foreground">Most Popular</Badge>
+          </div>
+          <CardHeader>
+            <CardTitle>Pro</CardTitle>
+            <CardDescription>For power users and professionals</CardDescription>
+            <div className="text-3xl font-bold">$9<span className="text-sm font-normal text-muted-foreground">/month</span></div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ul className="space-y-3">
+              <li className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span>Unlimited reminders</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span>All notification types</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span>Email & SMS notifications</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span>Advanced voice commands</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span>Smart categorization</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span>Priority support</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span>API access</span>
+              </li>
+            </ul>
+            <form action="/api/stripe/create-checkout-session" method="POST">
+              <input type="hidden" name="priceId" value="price_pro_monthly" />
+              <Button type="submit" className="w-full">
+                Upgrade to Pro
+              </Button>
+            </form>
+            <p className="text-xs text-muted-foreground text-center">
+              Cancel anytime. <Link href="/terms" className="underline">Terms apply</Link>
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Feature Comparison */}
+      <div className="mt-16">
+        <h2 className="text-2xl font-bold text-center mb-8">Feature Comparison</h2>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="border-b">
+                <th className="text-left p-4">Feature</th>
+                <th className="text-center p-4">Free</th>
+                <th className="text-center p-4">Pro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b">
+                <td className="p-4">Reminders</td>
+                <td className="text-center p-4">10</td>
+                <td className="text-center p-4">Unlimited</td>
+              </tr>
+              <tr className="border-b">
+                <td className="p-4">Push Notifications</td>
+                <td className="text-center p-4">✓</td>
+                <td className="text-center p-4">✓</td>
+              </tr>
+              <tr className="border-b">
+                <td className="p-4">Email Notifications</td>
+                <td className="text-center p-4">✗</td>
+                <td className="text-center p-4">✓</td>
+              </tr>
+              <tr className="border-b">
+                <td className="p-4">SMS Notifications</td>
+                <td className="text-center p-4">✗</td>
+                <td className="text-center p-4">✓</td>
+              </tr>
+              <tr className="border-b">
+                <td className="p-4">Voice Capture</td>
+                <td className="text-center p-4">✓</td>
+                <td className="text-center p-4">✓</td>
+              </tr>
+              <tr className="border-b">
+                <td className="p-4">Support</td>
+                <td className="text-center p-4">Community</td>
+                <td className="text-center p-4">Priority</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </header>
-
-      {/* Hero Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-6xl font-bold text-gray-900 mb-6"
-          >
-            Choose Your Plan
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-xl text-gray-600 mb-4"
-          >
-            Never miss another important date. Start free, upgrade anytime.
-          </motion.p>
-        </div>
-      </section>
-
-      {/* Pricing Cards */}
-      <section className="pb-20 px-4">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
-          {tiers.map((tier, index) => (
-            <motion.div
-              key={tier.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className={`relative p-8 rounded-3xl border-2 ${
-                tier.highlighted
-                  ? 'border-blue-600 shadow-2xl scale-105'
-                  : 'border-gray-200 shadow-lg'
-              } bg-white`}
-            >
-              {tier.highlighted && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-blue-600 text-white text-sm font-semibold rounded-full">
-                  Most Popular
-                </div>
-              )}
-
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{tier.name}</h3>
-                <p className="text-gray-600 mb-4">{tier.description}</p>
-                <div className="mb-2">
-                  <span className="text-5xl font-bold text-gray-900">{tier.price}</span>
-                </div>
-                <p className="text-sm text-gray-500">{tier.period}</p>
-              </div>
-
-              <ul className="space-y-3 mb-8">
-                {tier.features.map((feature) => (
-                  <li key={feature} className="flex items-start">
-                    <Check className="w-5 h-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <button
-                onClick={() => handleUpgrade(tier)}
-                className={`block w-full py-3 px-6 rounded-xl font-semibold text-center transition-colors ${
-                  tier.highlighted
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
-                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                }`}
-              >
-                {tier.cta}
-                <ArrowRight className="inline w-4 h-4 ml-1" />
-              </button>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+      </div>
 
       {/* FAQ Section */}
-      <section className="py-20 px-4 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            Frequently Asked Questions
-          </h2>
-          <div className="space-y-6">
-            <FAQItem
-              question="Can I switch plans anytime?"
-              answer="Yes! You can upgrade, downgrade, or cancel your subscription at any time."
-            />
-            <FAQItem
-              question="Do you offer refunds?"
-              answer="We offer a 14-day money-back guarantee for all paid plans."
-            />
-            <FAQItem
-              question="What payment methods do you accept?"
-              answer="We accept all major credit cards, debit cards, and PayPal through Stripe."
-            />
-            <FAQItem
-              question="Is my data secure?"
-              answer="Absolutely. We use enterprise-grade encryption and never share your data with third parties."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-12 px-4 bg-gray-900 text-gray-400">
-        <div className="max-w-6xl mx-auto text-center">
-          <p className="mb-4">&copy; 2025 RE:MIND. All rights reserved.</p>
-          <div className="flex justify-center gap-6">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <a href="#" className="hover:text-white transition-colors">Privacy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms</a>
-            <a href="#" className="hover:text-white transition-colors">Contact</a>
-          </div>
-        </div>
-      </footer>
-
-      {/* Stripe Checkout Modal */}
-      {selectedPlan && (
-        <StripeCheckout
-          isOpen={showCheckout}
-          onClose={() => setShowCheckout(false)}
-          plan={selectedPlan}
-          onSuccess={handlePaymentSuccess}
-        />
-      )}
-    </div>
-  )
-}
-
-function FAQItem({ question, answer }: { question: string; answer: string }) {
-  return (
-    <div className="p-6 bg-white rounded-2xl shadow-sm">
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">{question}</h3>
-      <p className="text-gray-600">{answer}</p>
+      <div className="mt-16 text-center">
+        <h2 className="text-2xl font-bold mb-4">Questions?</h2>
+        <p className="text-muted-foreground mb-6">
+          Check out our <Link href="/support" className="underline">support page</Link> or{' '}
+          <Link href="/contact" className="underline">contact us</Link> directly.
+        </p>
+      </div>
     </div>
   )
 }

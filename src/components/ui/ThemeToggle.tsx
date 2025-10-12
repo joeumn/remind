@@ -3,10 +3,10 @@
 import { useState } from 'react'
 import { Sun, Moon, Monitor } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTheme } from '@/contexts/ThemeContext'
+import { useTheme } from 'next-themes'
 
 export function ThemeToggle() {
-  const { theme, setTheme, actualTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
 
   const themes = [

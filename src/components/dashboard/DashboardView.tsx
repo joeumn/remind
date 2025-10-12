@@ -8,9 +8,9 @@ import { ChevronLeft, ChevronRight, Plus, Search, CheckSquare, Sparkles, AlertCi
 import { addDays, subDays } from 'date-fns'
 import { EventList } from '@/components/events/EventList'
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton'
+import { Dock } from '@/components/dock/dock'
 import { QuickAddModal } from '@/components/modals/QuickAddModal'
-import { BoothButton } from '@/components/ui/BoothButton'
-import { LazyAdvancedSearch } from '@/components/lazy/LazyComponents'
+import { AdvancedSearch } from '@/components/search/advanced-search'
 import { LazyBulkOperations } from '@/components/lazy/LazyComponents'
 import { LazySmartTemplates } from '@/components/lazy/LazyComponents'
 import { Suspense } from 'react'
@@ -379,8 +379,17 @@ export function DashboardView() {
       {/* Floating Quick Add Button */}
       <FloatingAddButton onClick={() => setIsQuickAddOpen(true)} />
 
-      {/* Booth Demo Button */}
-      <BoothButton />
+      {/* Floating Dock */}
+      <Dock 
+        alwaysListening={typeof window !== 'undefined' ? localStorage.getItem('remind-always-listening') === 'true' : false}
+        onToggleListening={() => {
+          const current = localStorage.getItem('remind-always-listening') === 'true'
+          localStorage.setItem('remind-always-listening', (!current).toString())
+          window.location.reload()
+        }}
+        onQuickAdd={() => setIsQuickAddOpen(true)}
+        onOpenApp={() => window.location.href = '/dashboard'}
+      />
 
       {/* Quick Add Modal */}
       <QuickAddModal
@@ -392,11 +401,7 @@ export function DashboardView() {
       {/* Advanced Search Modal */}
       {isSearchOpen && (
         <Suspense fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center"><div className="bg-white p-6 rounded-xl">Loading search...</div></div>}>
-          <LazyAdvancedSearch
-            events={events}
-            onResults={setSearchResults}
-            onClose={() => setIsSearchOpen(false)}
-          />
+          <AdvancedSearch />
         </Suspense>
       )}
 
