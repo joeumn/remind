@@ -1,35 +1,83 @@
 'use client'
 
-import { Menu, Bell } from 'lucide-react'
+import { Menu, Bell, Settings, User } from 'lucide-react'
 import { useStore } from '@/store'
+import { LogoText } from '@/components/ui/logo'
+import { Button } from '@/components/ui/button'
+import { motion } from 'framer-motion'
 
 export function Header() {
   const notifications = useStore((state) => state.notifications)
   const unreadCount = notifications.filter((n) => !n.is_read).length
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-gray-200">
+    <header className="sticky top-0 z-40 glass-card border-b border-border/50 backdrop-blur-xl">
       <div className="flex items-center justify-between h-16 px-4">
-        <button
-          className="p-2 -ml-2 text-gray-700 hover:text-gray-900"
-          title="Open menu"
-          aria-label="Open menu"
+        {/* Left Section */}
+        <div className="flex items-center gap-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="p-2 -ml-2 text-muted-foreground hover:text-foreground hover:bg-accent/50"
+            title="Open menu"
+            aria-label="Open menu"
+          >
+            <Menu className="w-5 h-5" />
+          </Button>
+          
+          <LogoText className="text-xl" />
+        </div>
+        
+        {/* Center Section - Status Indicator */}
+        <motion.div 
+          className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-success/10 border border-success/20"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
         >
-          <Menu className="w-6 h-6" />
-        </button>
+          <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+          <span className="text-xs font-medium text-success">All systems operational</span>
+        </motion.div>
         
-        <h1 className="text-lg font-semibold text-gray-900">
-          RE:MIND
-        </h1>
-        
-        <button className="relative p-2 -mr-2 text-gray-700 hover:text-gray-900">
-          <Bell className="w-6 h-6" />
-          {unreadCount > 0 && (
-            <span className="absolute top-1 right-1 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
-              {unreadCount > 9 ? '9+' : unreadCount}
-            </span>
-          )}
-        </button>
+        {/* Right Section */}
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative p-2 text-muted-foreground hover:text-foreground hover:bg-accent/50"
+            title="Settings"
+          >
+            <Settings className="w-5 h-5" />
+          </Button>
+          
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative p-2 text-muted-foreground hover:text-foreground hover:bg-accent/50"
+            title="Notifications"
+          >
+            <Bell className="w-5 h-5" />
+            {unreadCount > 0 && (
+              <motion.span 
+                className="absolute -top-1 -right-1 flex items-center justify-center min-w-[20px] h-5 px-1 text-xs font-bold text-white bg-destructive rounded-full"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200 }}
+              >
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </motion.span>
+            )}
+          </Button>
+          
+          <Button
+            variant="ghost"
+            size="icon"
+            className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent/50"
+            title="Profile"
+          >
+            <User className="w-5 h-5" />
+          </Button>
+        </div>
       </div>
     </header>
   )

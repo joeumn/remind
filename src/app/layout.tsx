@@ -1,11 +1,21 @@
-import { Inter } from "next/font/google";
+import { Inter, Geist } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { PWAInitializer } from "@/components/PWAInitializer";
 import { MainNav } from "@/components/navigation/main-nav";
 import { SiteFooter } from "@/components/layouts/site-footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+  display: "swap",
+});
 
 export const metadata = {
   title: "RE:MIND - The Fastest Way to Set Reminders",
@@ -37,17 +47,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning className="dark">
+      <body className={`${inter.variable} ${geist.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <PWAInitializer />
           <MainNav />
-          <main className="min-h-screen">
+          <main className="min-h-screen bg-background">
             {children}
           </main>
           <SiteFooter />

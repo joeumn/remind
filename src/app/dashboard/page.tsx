@@ -4,7 +4,7 @@ import { DashboardView } from '@/components/dashboard/DashboardView'
 
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <Header />
       <main className="pb-safe">
         <DashboardView />
