@@ -1,332 +1,302 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
+  Plus, 
   Mic, 
-  Sparkles, 
-  Zap, 
-  TrendingUp, 
-  Clock, 
   Calendar, 
+  Clock, 
   CheckCircle, 
-  Star,
+  Star, 
+  Trophy, 
+  Zap, 
+  Target,
+  TrendingUp,
   Share2,
   Download,
-  Trophy,
-  Target,
-  Brain,
-  Globe,
-  Shield
+  Sparkles
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Logo } from '@/components/ui/Logo'
+import { Card } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 
 interface ViralDashboardProps {
-  reminders?: any[]
-  onQuickAdd?: () => void
+  onQuickAdd: () => void
 }
 
-export function ViralDashboard({ reminders = [], onQuickAdd }: ViralDashboardProps) {
-  const [currentTime, setCurrentTime] = useState(new Date())
-  const [achievements, setAchievements] = useState([
-    { id: 1, title: "First Reminder", description: "Created your first reminder", unlocked: true, icon: <CheckCircle className="h-6 w-6" /> },
-    { id: 2, title: "Voice Master", description: "Used voice input 10 times", unlocked: true, icon: <Mic className="h-6 w-6" /> },
-    { id: 3, title: "Productivity Pro", description: "Completed 50 reminders", unlocked: false, icon: <Trophy className="h-6 w-6" /> },
-    { id: 4, title: "AI Assistant", description: "Let AI categorize 25 reminders", unlocked: true, icon: <Brain className="h-6 w-6" /> }
-  ])
-
-  const [stats, setStats] = useState({
-    totalReminders: 47,
-    completedToday: 8,
-    streak: 12,
-    aiSuggestions: 23
-  })
+export function ViralDashboard({ onQuickAdd }: ViralDashboardProps) {
+  const [mounted, setMounted] = useState(false)
+  const [todayCount, setTodayCount] = useState(0)
+  const [weekStreak, setWeekStreak] = useState(7)
+  const [completedToday, setCompletedToday] = useState(3)
 
   useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000)
-    return () => clearInterval(timer)
+    setMounted(true)
+    // Animate counters on mount
+    const timer = setTimeout(() => {
+      setTodayCount(5)
+    }, 500)
+    return () => clearTimeout(timer)
   }, [])
 
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
-      minute: '2-digit',
-      hour12: true 
-    })
-  }
+  if (!mounted) return null
 
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', { 
-      weekday: 'long',
-      month: 'long', 
-      day: 'numeric' 
-    })
-  }
+  const achievements = [
+    { icon: <Trophy className="h-5 w-5" />, title: "Week Warrior", description: "7 day streak!", unlocked: true },
+    { icon: <Target className="h-5 w-5" />, title: "Perfect Day", description: "All reminders completed", unlocked: true },
+    { icon: <Zap className="h-5 w-5" />, title: "Speed Demon", description: "10 quick adds in a row", unlocked: false },
+    { icon: <Star className="h-5 w-5" />, title: "Consistency King", description: "30 day streak", unlocked: false }
+  ]
 
-  const sampleReminders = [
-    { id: 1, title: "Team standup at 9 AM", time: "9:00 AM", priority: "high", category: "work", completed: false },
-    { id: 2, title: "Call mom for her birthday", time: "7:00 PM", priority: "medium", category: "personal", completed: false },
-    { id: 3, title: "Grocery shopping", time: "2:00 PM", priority: "low", category: "shopping", completed: true },
-    { id: 4, title: "Doctor appointment", time: "10:30 AM", priority: "high", category: "health", completed: false }
+  const todayReminders = [
+    { id: 1, title: "Team standup meeting", time: "9:00 AM", completed: true, priority: "high" },
+    { id: 2, title: "Call mom for her birthday", time: "2:00 PM", completed: true, priority: "high" },
+    { id: 3, title: "Review quarterly reports", time: "4:00 PM", completed: true, priority: "medium" },
+    { id: 4, title: "Grocery shopping", time: "6:00 PM", completed: false, priority: "low" },
+    { id: 5, title: "Gym workout", time: "7:30 PM", completed: false, priority: "medium" }
+  ]
+
+  const stats = [
+    { label: "Today", value: todayCount, icon: <Calendar className="h-5 w-5" />, color: "text-blue-500" },
+    { label: "Completed", value: completedToday, icon: <CheckCircle className="h-5 w-5" />, color: "text-green-500" },
+    { label: "Streak", value: weekStreak, icon: <TrendingUp className="h-5 w-5" />, color: "text-purple-500" },
+    { label: "Score", value: 2847, icon: <Star className="h-5 w-5" />, color: "text-yellow-500" }
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 p-4">
-      {/* Animated Background */}
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 p-4 space-y-6">
+      {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-float" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-secondary/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }} />
-        <div className="absolute top-1/3 right-1/4 w-60 h-60 bg-accent/5 rounded-full blur-3xl animate-pulse-slow" />
+        <motion.div 
+          className="absolute top-20 right-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 4, repeat: Infinity }}
+        />
+        <motion.div 
+          className="absolute bottom-20 left-10 w-40 h-40 bg-secondary/5 rounded-full blur-2xl"
+          animate={{ scale: [1.2, 1, 1.2], opacity: [0.6, 0.3, 0.6] }}
+          transition={{ duration: 5, repeat: Infinity }}
+        />
       </div>
 
-      <div className="relative max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <motion.div 
-          className="flex items-center justify-between"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div>
-            <Logo size="lg" />
-            <p className="text-muted-foreground mt-2">Your productivity command center</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button
-              onClick={onQuickAdd}
-              className="gradient-primary hover:opacity-90 hover-lift shadow-glow"
-            >
-              <Mic className="h-4 w-4 mr-2" />
-              Voice Add
-            </Button>
-            <Button variant="outline" className="glass hover:glass-strong">
-              <Share2 className="h-4 w-4 mr-2" />
-              Share
-            </Button>
-          </div>
-        </motion.div>
-
-        {/* Time and Stats Row */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-4 gap-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          {/* Current Time */}
-          <div className="glass rounded-2xl p-6 hover-lift">
-            <div className="flex items-center gap-3 mb-2">
-              <Clock className="h-6 w-6 text-primary" />
-              <span className="text-sm font-medium text-muted-foreground">Current Time</span>
-            </div>
-            <div className="text-3xl font-bold text-gradient">{formatTime(currentTime)}</div>
-            <div className="text-sm text-muted-foreground">{formatDate(currentTime)}</div>
-          </div>
-
-          {/* Today's Progress */}
-          <div className="glass rounded-2xl p-6 hover-lift">
-            <div className="flex items-center gap-3 mb-2">
-              <Target className="h-6 w-6 text-accent" />
-              <span className="text-sm font-medium text-muted-foreground">Today's Progress</span>
-            </div>
-            <div className="text-3xl font-bold text-gradient">{stats.completedToday}/12</div>
-            <div className="w-full bg-muted rounded-full h-2 mt-2">
-              <motion.div 
-                className="bg-gradient-accent h-2 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: `${(stats.completedToday / 12) * 100}%` }}
-                transition={{ duration: 1, delay: 0.5 }}
-              />
-            </div>
-          </div>
-
-          {/* Streak */}
-          <div className="glass rounded-2xl p-6 hover-lift">
-            <div className="flex items-center gap-3 mb-2">
-              <Zap className="h-6 w-6 text-yellow-500" />
-              <span className="text-sm font-medium text-muted-foreground">Streak</span>
-            </div>
-            <div className="text-3xl font-bold text-gradient">{stats.streak} days</div>
-            <div className="text-sm text-muted-foreground">Keep it up! 🔥</div>
-          </div>
-
-          {/* AI Insights */}
-          <div className="glass rounded-2xl p-6 hover-lift">
-            <div className="flex items-center gap-3 mb-2">
-              <Brain className="h-6 w-6 text-purple-500" />
-              <span className="text-sm font-medium text-muted-foreground">AI Insights</span>
-            </div>
-            <div className="text-3xl font-bold text-gradient">{stats.aiSuggestions}</div>
-            <div className="text-sm text-muted-foreground">Smart suggestions</div>
-          </div>
-        </motion.div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Reminders List */}
-          <motion.div 
-            className="lg:col-span-2 space-y-6"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+      {/* Header Stats */}
+      <motion.div 
+        className="grid grid-cols-2 md:grid-cols-4 gap-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        {stats.map((stat, index) => (
+          <motion.div
+            key={stat.label}
+            className="glass rounded-2xl p-6 hover-lift"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            whileHover={{ scale: 1.02 }}
           >
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gradient">Today's Reminders</h2>
-              <Button variant="outline" size="sm" className="glass">
-                <Calendar className="h-4 w-4 mr-2" />
-                View All
-              </Button>
-            </div>
-
-            <div className="space-y-3">
-              {sampleReminders.map((reminder, index) => (
-                <motion.div
-                  key={reminder.id}
-                  className="glass rounded-xl p-4 hover-lift group"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
+            <div className="flex items-center gap-3 mb-2">
+              <div className={cn("p-2 rounded-lg bg-muted/50", stat.color)}>
+                {stat.icon}
+              </div>
+              <div>
+                <motion.div 
+                  className="text-2xl font-bold"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 + index * 0.1 }}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-3 h-3 rounded-full ${
-                        reminder.priority === 'high' ? 'bg-destructive' :
-                        reminder.priority === 'medium' ? 'bg-primary' : 'bg-muted-foreground'
-                      }`} />
-                      <div>
-                        <p className={`font-medium ${reminder.completed ? 'line-through text-muted-foreground' : ''}`}>
-                          {reminder.title}
-                        </p>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Clock className="h-3 w-3" />
-                          {reminder.time}
-                          <span className="px-2 py-0.5 bg-muted rounded-full text-xs">
-                            {reminder.category}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {reminder.completed ? (
-                        <CheckCircle className="h-5 w-5 text-accent" />
-                      ) : (
-                        <Button size="sm" variant="ghost" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                          <CheckCircle className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </div>
-                  </div>
+                  {stat.value}
                 </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Sidebar */}
-          <motion.div 
-            className="space-y-6"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            {/* Achievements */}
-            <div className="glass rounded-2xl p-6">
-              <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                <Trophy className="h-5 w-5 text-yellow-500" />
-                Achievements
-              </h3>
-              <div className="space-y-3">
-                {achievements.map((achievement, index) => (
-                  <motion.div
-                    key={achievement.id}
-                    className={`flex items-center gap-3 p-3 rounded-lg ${
-                      achievement.unlocked ? 'bg-accent/10 border border-accent/20' : 'bg-muted/30'
-                    }`}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}
-                  >
-                    <div className={`p-2 rounded-lg ${
-                      achievement.unlocked ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'
-                    }`}>
-                      {achievement.icon}
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-sm">{achievement.title}</p>
-                      <p className="text-xs text-muted-foreground">{achievement.description}</p>
-                    </div>
-                    {achievement.unlocked && (
-                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick Actions */}
-            <div className="glass rounded-2xl p-6">
-              <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-primary" />
-                Quick Actions
-              </h3>
-              <div className="space-y-3">
-                <Button 
-                  onClick={onQuickAdd}
-                  className="w-full gradient-primary hover:opacity-90 hover-lift"
-                >
-                  <Mic className="h-4 w-4 mr-2" />
-                  Voice Reminder
-                </Button>
-                <Button variant="outline" className="w-full glass hover:glass-strong">
-                  <Brain className="h-4 w-4 mr-2" />
-                  AI Suggestions
-                </Button>
-                <Button variant="outline" className="w-full glass hover:glass-strong">
-                  <Globe className="h-4 w-4 mr-2" />
-                  Sync Devices
-                </Button>
-              </div>
-            </div>
-
-            {/* Share Your Progress */}
-            <div className="glass rounded-2xl p-6 bg-gradient-to-br from-primary/5 to-secondary/5 border border-primary/20">
-              <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                <Share2 className="h-5 w-5 text-primary" />
-                Share Your Progress
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Show off your productivity streak and inspire others!
-              </p>
-              <div className="space-y-2">
-                <Button className="w-full gradient-primary hover:opacity-90">
-                  <Download className="h-4 w-4 mr-2" />
-                  Generate Screenshot
-                </Button>
-                <Button variant="outline" className="w-full glass hover:glass-strong">
-                  <Share2 className="h-4 w-4 mr-2" />
-                  Share to Social
-                </Button>
+                <div className="text-sm text-muted-foreground">{stat.label}</div>
               </div>
             </div>
           </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Quick Actions */}
+      <motion.div
+        className="flex gap-4 justify-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <Button
+          onClick={onQuickAdd}
+          className="gap-3 px-8 py-4 text-lg font-semibold gradient-primary hover:opacity-90 hover-lift shadow-glow"
+          size="lg"
+        >
+          <Mic className="h-5 w-5" />
+          Voice Capture
+          <Sparkles className="h-4 w-4" />
+        </Button>
+        
+        <Button
+          variant="outline"
+          className="gap-3 px-6 py-4 glass hover:glass-strong hover-lift"
+          size="lg"
+        >
+          <Share2 className="h-5 w-5" />
+          Share Progress
+        </Button>
+      </motion.div>
+
+      {/* Today's Reminders */}
+      <motion.div
+        className="space-y-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+      >
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold flex items-center gap-2">
+            <Calendar className="h-6 w-6 text-primary" />
+            Today's Focus
+          </h2>
+          <div className="text-sm text-muted-foreground">
+            {completedToday}/{todayReminders.length} completed
+          </div>
         </div>
 
-        {/* Floating Action Button */}
-        <motion.div
-          className="fixed bottom-6 right-6 z-50"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 500, delay: 1 }}
+        <div className="space-y-3">
+          <AnimatePresence>
+            {todayReminders.map((reminder, index) => (
+              <motion.div
+                key={reminder.id}
+                className={cn(
+                  "glass rounded-xl p-4 hover-lift transition-all",
+                  reminder.completed && "opacity-60"
+                )}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                layout
+              >
+                <div className="flex items-center gap-4">
+                  <motion.div
+                    className={cn(
+                      "w-6 h-6 rounded-full border-2 flex items-center justify-center",
+                      reminder.completed 
+                        ? "bg-green-500 border-green-500" 
+                        : "border-muted-foreground"
+                    )}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    {reminder.completed && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 500 }}
+                      >
+                        <CheckCircle className="h-4 w-4 text-white" />
+                      </motion.div>
+                    )}
+                  </motion.div>
+                  
+                  <div className="flex-1">
+                    <div className={cn(
+                      "font-medium",
+                      reminder.completed && "line-through"
+                    )}>
+                      {reminder.title}
+                    </div>
+                    <div className="text-sm text-muted-foreground flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {reminder.time}
+                    </div>
+                  </div>
+                  
+                  <div className={cn(
+                    "px-2 py-1 rounded-full text-xs font-medium",
+                    reminder.priority === "high" && "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
+                    reminder.priority === "medium" && "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300",
+                    reminder.priority === "low" && "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
+                  )}>
+                    {reminder.priority}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      </motion.div>
+
+      {/* Achievements Section */}
+      <motion.div
+        className="space-y-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.6 }}
+      >
+        <h2 className="text-2xl font-bold flex items-center gap-2">
+          <Trophy className="h-6 w-6 text-yellow-500" />
+          Achievements
+        </h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {achievements.map((achievement, index) => (
+            <motion.div
+              key={achievement.title}
+              className={cn(
+                "glass rounded-xl p-4 hover-lift transition-all",
+                achievement.unlocked 
+                  ? "border-yellow-500/30 bg-yellow-500/5" 
+                  : "opacity-50"
+              )}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: achievement.unlocked ? 1 : 0.5, scale: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={achievement.unlocked ? { scale: 1.02 } : undefined}
+            >
+              <div className="flex items-center gap-3">
+                <div className={cn(
+                  "p-2 rounded-lg",
+                  achievement.unlocked 
+                    ? "bg-yellow-500/20 text-yellow-500" 
+                    : "bg-muted/50 text-muted-foreground"
+                )}>
+                  {achievement.icon}
+                </div>
+                <div>
+                  <div className="font-semibold">{achievement.title}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {achievement.description}
+                  </div>
+                </div>
+                {achievement.unlocked && (
+                  <motion.div
+                    className="ml-auto"
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: "spring", stiffness: 500, delay: 0.5 }}
+                  >
+                    <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Floating Action Button */}
+      <motion.div
+        className="fixed bottom-6 right-6 z-50"
+        initial={{ scale: 0, rotate: -180 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{ type: "spring", stiffness: 500, delay: 1 }}
+      >
+        <Button
+          onClick={onQuickAdd}
+          className="w-14 h-14 rounded-full gradient-primary hover:opacity-90 hover-lift shadow-glow-lg"
+          size="icon"
         >
-          <Button
-            onClick={onQuickAdd}
-            className="w-16 h-16 rounded-full gradient-primary hover:opacity-90 hover-lift shadow-glow"
-            size="icon"
-          >
-            <Mic className="h-6 w-6" />
-          </Button>
-        </motion.div>
-      </div>
+          <Plus className="h-6 w-6" />
+        </Button>
+      </motion.div>
     </div>
   )
 }

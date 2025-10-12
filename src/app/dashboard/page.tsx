@@ -1,3 +1,5 @@
+'use client'
+
 import { Header } from '@/components/layout/Header'
 import { MobileNav } from '@/components/layout/MobileNav'
 import { ViralDashboard } from '@/components/ui/ViralDashboard'
@@ -17,10 +19,10 @@ export default function DashboardPage() {
       </main>
       <MobileNav />
       
-      {/* Quick Add Modal */}
-      <QuickAddReminder>
-        <div style={{ display: 'none' }} />
-      </QuickAddReminder>
+       {/* Quick Add Modal */}
+       <QuickAddReminder>
+         <div className="hidden" />
+       </QuickAddReminder>
     </div>
   )
 }
