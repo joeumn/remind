@@ -8,7 +8,6 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "RE:MIND - The Elite Reminder App",
   description: "Never miss another crucial date. The ultimate scheduling and reminder system for professionals who demand absolute reliability.",
-  themeColor: "#3b82f6",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -24,6 +23,10 @@ export const metadata = {
     ]
   },
   manifest: "/manifest.json"
+}
+
+export const viewport = {
+  themeColor: "#3b82f6",
 }
 
 export default function RootLayout({
