@@ -1,197 +1,348 @@
 'use client'
 
-import Link from 'next/link'
-import { ArrowRight, Calendar, Bell, Shield, Zap, Clock, Mail, Mic, Sparkles } from 'lucide-react'
-import { motion } from 'framer-motion'
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { QuickAddReminder } from "@/components/quick-add-reminder"
+import { Logo, LogoCompact } from "@/components/ui/Logo"
+import { ArrowRight, Clock, Smartphone, Zap, CheckCircle, Sparkles, Star, Users, Shield, Brain, Mic, Globe, Download } from "lucide-react"
+import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      {/* Animated Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-float" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-secondary/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse-slow" />
+      </div>
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-20 pb-32 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-5xl md:text-7xl font-bold text-gray-900 mb-6"
-          >
-            Never Miss Another
-            <br />
-            <span className="text-blue-600">Crucial Date Again</span>
-          </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto"
-          >
-            RE:MIND is the ultimate scheduling and reminder system for high-performance professionals, lawyers, and founders who demand absolute reliability.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link
-              href="/dashboard"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-blue-600 rounded-2xl hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
+      <section className="relative flex-1 flex items-center justify-center px-4 py-20 min-h-screen">
+        <div className="container max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left Column - Content */}
+            <motion.div 
+              className="text-center lg:text-left"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              Try It Free
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Link>
-            <Link
-              href="/pricing"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white rounded-2xl hover:bg-gray-50 transition-colors border-2 border-blue-600"
+              {/* Logo */}
+              <div className="flex justify-center lg:justify-start mb-8">
+                <Logo size="xl" />
+              </div>
+
+              {/* Main Headline */}
+              <motion.h1 
+                className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-tight"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                The Future of{' '}
+                <span className="text-gradient">Reminders</span>
+                <br />
+                <span className="text-4xl md:text-6xl text-muted-foreground">is Here</span>
+              </motion.h1>
+
+              {/* Subtitle */}
+              <motion.p 
+                className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                Never miss another moment. RE:MIND uses AI-powered voice recognition to capture your thoughts instantly, 
+                then intelligently schedules them for maximum impact.
+              </motion.p>
+              
+              {/* Value Props */}
+              <motion.div 
+                className="space-y-6 mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                <div className="flex items-center space-x-4 group">
+                  <div className="p-2 bg-gradient-primary rounded-xl group-hover:scale-110 transition-transform">
+                    <Mic className="h-6 w-6 text-white" />
+                  </div>
+                  <span className="text-lg font-medium">Voice-first design - just speak and it&apos;s done</span>
+                </div>
+                <div className="flex items-center space-x-4 group">
+                  <div className="p-2 bg-gradient-secondary rounded-xl group-hover:scale-110 transition-transform">
+                    <Brain className="h-6 w-6 text-white" />
+                  </div>
+                  <span className="text-lg font-medium">AI that understands context and urgency</span>
+                </div>
+                <div className="flex items-center space-x-4 group">
+                  <div className="p-2 bg-gradient-accent rounded-xl group-hover:scale-110 transition-transform">
+                    <Globe className="h-6 w-6 text-white" />
+                  </div>
+                  <span className="text-lg font-medium">Seamless sync across all your devices</span>
+                </div>
+              </motion.div>
+
+              {/* CTAs */}
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+              >
+                <QuickAddReminder>
+                  <Button size="lg" className="gap-3 px-8 py-4 text-lg font-semibold gradient-primary hover:opacity-90 hover-lift shadow-glow">
+                    <Sparkles className="h-5 w-5" />
+                    Try Voice Capture
+                    <ArrowRight className="h-5 w-5" />
+                  </Button>
+                </QuickAddReminder>
+                <Link href="/auth/register">
+                  <Button size="lg" variant="outline" className="gap-3 px-8 py-4 text-lg font-semibold glass hover:glass-strong hover-lift">
+                    <Download className="h-5 w-5" />
+                    Get Started Free
+                  </Button>
+                </Link>
+              </motion.div>
+
+              {/* Trust Indicators */}
+              <motion.div 
+                className="mt-12 flex items-center justify-center lg:justify-start gap-8 text-sm text-muted-foreground"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 1 }}
+              >
+                <div className="flex items-center gap-2">
+                  <Shield className="h-4 w-4" />
+                  <span>Privacy First</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="h-4 w-4" />
+                  <span>50K+ Users</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                  <span>4.9/5 Rating</span>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Column - Visual */}
+            <motion.div 
+              className="hidden lg:block relative"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
             >
-              View Pricing
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">
-            Built for Absolute Reliability
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <FeatureCard
-              icon={<Sparkles className="w-8 h-8" />}
-              title="Effortless Quick Add"
-              description="Just type or speak. 'Call mom tomorrow at 3pm' - done! Natural language processing understands you."
-              highlighted={true}
-            />
-            <FeatureCard
-              icon={<Mic className="w-8 h-8" />}
-              title="Voice-Powered"
-              description="Tap the mic and speak your reminder. Hands-free reminder creation while driving or cooking."
-              highlighted={true}
-            />
-            <FeatureCard
-              icon={<Zap className="w-8 h-8" />}
-              title="One-Tap Quick Times"
-              description="'30 min', '1 hour', 'Tomorrow 9am' - instant reminders without typing dates and times."
-              highlighted={true}
-            />
-            <FeatureCard
-              icon={<Bell className="w-8 h-8" />}
-              title="Multi-Layer Reminders"
-              description="Get notified 14d, 7d, 3d, 1d, 2h, and 1h before every event. Customizable to your needs."
-            />
-            <FeatureCard
-              icon={<Calendar className="w-8 h-8" />}
-              title="Smart Categorization"
-              description="Organize by Court, Work, Family, Personal, Recovery. Color-coded for instant recognition."
-            />
-            <FeatureCard
-              icon={<Shield className="w-8 h-8" />}
-              title="Accountability Partners"
-              description="Send automatic copies to trusted contacts for crucial court dates and meetings."
-            />
-            <FeatureCard
-              icon={<Clock className="w-8 h-8" />}
-              title="Priority System"
-              description="Urgent events trigger early warnings. Smart prioritization keeps you ahead."
-            />
-            <FeatureCard
-              icon={<Mail className="w-8 h-8" />}
-              title="Daily & Weekly Briefings"
-              description="SMS and email summaries keep you informed of what's ahead."
-            />
-            <FeatureCard
-              icon={<Zap className="w-8 h-8" />}
-              title="Beautiful UI"
-              description="Apple Calendar meets Notion. Clean, fast, and delightful to use every day."
-            />
+              {/* Main Phone Mockup */}
+              <div className="relative">
+                <div className="glass-strong rounded-3xl p-8 w-80 mx-auto">
+                  <div className="bg-gradient-to-br from-muted/50 to-muted/20 rounded-2xl p-6 space-y-4">
+                    {/* Header */}
+                    <div className="flex items-center justify-between">
+                      <LogoCompact />
+                      <div className="w-8 h-8 bg-gradient-primary rounded-full animate-pulse-glow" />
+                    </div>
+                    
+                    {/* Quick Add Button */}
+                    <div className="bg-gradient-primary rounded-xl p-4 text-center">
+                      <Mic className="h-8 w-8 text-white mx-auto mb-2 animate-bounce-slow" />
+                      <p className="text-white font-semibold">Tap to speak</p>
+                      <p className="text-white/80 text-sm">Your reminder will be created instantly</p>
+                    </div>
+                    
+                    {/* Sample Reminders */}
+                    <div className="space-y-3">
+                      <div className="bg-white/10 rounded-lg p-3 flex items-center gap-3">
+                        <div className="w-2 h-2 bg-accent rounded-full" />
+                        <span className="text-sm">Call mom at 3 PM</span>
+                      </div>
+                      <div className="bg-white/10 rounded-lg p-3 flex items-center gap-3">
+                        <div className="w-2 h-2 bg-primary rounded-full" />
+                        <span className="text-sm">Team meeting tomorrow</span>
+                      </div>
+                      <div className="bg-white/10 rounded-lg p-3 flex items-center gap-3">
+                        <div className="w-2 h-2 bg-secondary rounded-full" />
+                        <span className="text-sm">Buy groceries this weekend</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Floating Elements */}
+                <motion.div 
+                  className="absolute -top-6 -right-6 glass rounded-2xl p-4"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-accent rounded-full animate-pulse" />
+                    <span className="text-sm font-medium">AI Processing</span>
+                  </div>
+                </motion.div>
+                
+                <motion.div 
+                  className="absolute -bottom-6 -left-6 glass rounded-2xl p-4"
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Globe className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-medium">Synced</span>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Placeholder */}
-      <section className="py-20 px-4 bg-gray-50">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-gray-900 mb-16">
-            Trusted by Professionals
-          </h2>
+      {/* Features Section */}
+      <section className="py-20 relative">
+        <div className="container max-w-6xl mx-auto px-4">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Why <span className="text-gradient">RE:MIND</span> is Different
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Built for the modern professional who demands speed, intelligence, and reliability
+            </p>
+          </motion.div>
+          
           <div className="grid md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="p-8 bg-white rounded-2xl shadow-lg">
-                <p className="text-gray-600 mb-4">
-                  &quot;RE:MIND transformed how I manage my practice. I haven&apos;t missed a court date in 6 months.&quot;
-                </p>
-                <p className="font-semibold text-gray-900">- Professional User</p>
-              </div>
+            {[
+              {
+                icon: <Mic className="h-8 w-8" />,
+                title: "Voice-First Design",
+                description: "Just speak naturally. Our AI understands context, urgency, and automatically schedules your reminders.",
+                gradient: "gradient-primary"
+              },
+              {
+                icon: <Brain className="h-8 w-8" />,
+                title: "Smart Scheduling",
+                description: "AI analyzes your patterns and suggests optimal times for reminders based on your behavior and preferences.",
+                gradient: "gradient-secondary"
+              },
+              {
+                icon: <Globe className="h-8 w-8" />,
+                title: "Universal Sync",
+                description: "Works seamlessly across all devices. Your reminders are always with you, everywhere you go.",
+                gradient: "gradient-accent"
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                className="glass rounded-2xl p-8 hover-lift group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
+                viewport={{ once: true }}
+              >
+                <div className={`w-16 h-16 ${feature.gradient} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform`}>
+                  {feature.icon}
+                </div>
+                <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof Section */}
+      <section className="py-20 relative">
+        <div className="container max-w-6xl mx-auto px-4">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Trusted by <span className="text-gradient">Professionals</span>
+            </h2>
+            <p className="text-xl text-muted-foreground">
+              Join thousands of users who never miss important deadlines
+            </p>
+          </motion.div>
+          
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              { number: "50K+", label: "Active Users", icon: <Users className="h-8 w-8" /> },
+              { number: "99.9%", label: "Uptime", icon: <Shield className="h-8 w-8" /> },
+              { number: "4.9★", label: "User Rating", icon: <Star className="h-8 w-8 fill-yellow-400 text-yellow-400" /> },
+              { number: "2.3s", label: "Avg Response", icon: <Zap className="h-8 w-8" /> }
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                className="text-center glass rounded-2xl p-8 hover-lift"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <div className="text-primary mb-4 flex justify-center">
+                  {stat.icon}
+                </div>
+                <div className="text-4xl font-bold text-gradient mb-2">{stat.number}</div>
+                <div className="text-muted-foreground font-medium">{stat.label}</div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center bg-blue-600 rounded-3xl p-12 shadow-2xl">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to Take Control?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Join early access and never miss what matters most.
-          </p>
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white rounded-2xl hover:bg-gray-100 transition-colors shadow-lg"
+      <section className="py-20 relative">
+        <div className="container max-w-4xl mx-auto px-4 text-center">
+          <motion.div
+            className="glass-strong rounded-3xl p-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
           >
-            Get Started Free
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </Link>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Ready to <span className="text-gradient">Never Forget</span> Again?
+            </h2>
+            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Join the productivity revolution. Start capturing your thoughts instantly with voice commands.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <QuickAddReminder>
+                <Button size="lg" className="gap-3 px-8 py-4 text-lg font-semibold gradient-primary hover:opacity-90 hover-lift shadow-glow">
+                  <Mic className="h-5 w-5" />
+                  Try Voice Capture Now
+                  <ArrowRight className="h-5 w-5" />
+                </Button>
+              </QuickAddReminder>
+              <Link href="/auth/register">
+                <Button size="lg" variant="outline" className="gap-3 px-8 py-4 text-lg font-semibold glass hover:glass-strong hover-lift">
+                  <Download className="h-5 w-5" />
+                  Get Started Free
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="py-12 px-4 bg-gray-900 text-gray-400">
-        <div className="max-w-6xl mx-auto text-center">
-          <p className="mb-4">&copy; 2025 RE:MIND. All rights reserved.</p>
-          <div className="flex justify-center gap-6">
-            <a href="#" className="hover:text-white transition-colors">Privacy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms</a>
-            <a href="#" className="hover:text-white transition-colors">Contact</a>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }
-
-function FeatureCard({ icon, title, description, highlighted = false }: { icon: React.ReactNode; title: string; description: string; highlighted?: boolean }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className={`p-6 rounded-2xl border-2 hover:shadow-lg transition-all ${
-        highlighted
-          ? 'bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 border-blue-300 shadow-md'
-          : 'bg-gray-50 border-gray-100 hover:border-blue-200'
-      }`}
-    >
-      <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl mb-4 ${
-        highlighted
-          ? 'bg-gradient-to-br from-blue-500 to-purple-500 text-white'
-          : 'bg-blue-100 text-blue-600'
-      }`}>
-        {icon}
-      </div>
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">
-        {title}
-        {highlighted && <span className="ml-2 text-lg">✨</span>}
-      </h3>
-      <p className="text-gray-600">{description}</p>
-    </motion.div>
-  )
-}
-

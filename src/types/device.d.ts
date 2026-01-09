@@ -18,7 +18,7 @@ interface DeviceRotationRate {
   gamma: number | null
 }
 
-declare var DeviceMotionEvent: {
+declare const DeviceMotionEvent: {
   prototype: DeviceMotionEvent
   new(): DeviceMotionEvent
 }
