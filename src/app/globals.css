@@ -220,12 +220,16 @@
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
   
   .floating:hover {
-    @apply transform-none;
+    transform: none !important;
   }
 }
