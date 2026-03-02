@@ -1,3 +1,7 @@
+import { SimpleDashboard } from '@/components/dashboard/SimpleDashboard'
+
+export default function DashboardPage() {
+  return <SimpleDashboard />
 'use client'
 
 import { Header } from '@/components/layout/Header'
